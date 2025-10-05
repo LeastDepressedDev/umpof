@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Environs
+export PACK_INFO_REQ="https://127.0.0.1:3017/packs"
+
+# Params
+BUTLER_PORT=3017
+FRONT_PORT=8080
+
+echo "Running butler server"
+cd butler && python3 server.py $BUTLER_PORT & disown
+echo -e "\n\n\n\n\n\n"
+
+echo "Running frontend server"
+cd front && python3 server.py $FRONT_PORT & disown
+echo -e "\n\n\n\n\n\n"

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title id="TitleScreeni">Umpof</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div id="container" class="container">
+            <div class="up-bar"></div>
+            <div class="dwindow-container"></div>
+            <div class="wsp">
+
+            </div>
+            <div id="cm-container" class="cm-container" style="z-index: 200;"></div>
+        </div>
+    </body>
+
+    <script src="dwindow.js"></script>
+    <!--Dwindow style-->
+    <style>
+        
+
+        .dwindow-container {
+            user-select: none;
+            position: absolute;
+            left: 0%;
+            top: 0%;
+            width: 0%;
+            height: 0%;
+        }
+
+
+
+        .dwindow {
+            position: absolute;
+            background-color: rgb(66, 66, 66);
+            border-radius: 15px;
+            border: solid rgb(93, 89, 94);
+            overflow: hidden;
+        }
+
+        .dwindow-title {
+            position: absolute;
+            width: 100%;
+            height: 25px;
+            background-color: rgb(78, 78, 78);
+            text-align: center;
+        }
+
+        .dwindow-body {
+            position: absolute;
+            margin-top: 30px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+            width: 100%;
+            overflow-y: clip;
+            overflow-x: hidden;
+        }
+
+        .dcontext {
+            position: absolute;
+            user-select: none;
+        }
+
+        .dcontext-part {
+            background-color: gray;
+        }
+
+        .dcontext-part:hover {
+            background-color: aqua;
+        }
+    </style>
+
+    <style>
+        .container {
+            position: absolute;
+            left: 0%;
+            top: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        .up-bar {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            height: 25px;
+            width: 100%;
+            background-color: gray;
+        }
+
+        .wsp {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            height: 0%;
+            width: 0%;
+        }
+    </style>
+
+    <script src="workspace.js"></script>
+
+    <!--Test init script-->
+    <script>
+        create_dwindow("Test", new_dim(600, 400), "<h3>Ligmaballs</h3>");
+        //create_context_menu(200, 100, 50, test_context_meny, "true");
+    </script>
+</html>
