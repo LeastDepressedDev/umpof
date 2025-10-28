@@ -22,4 +22,5 @@ def packs_list():
 
 # Requires arguments: [1] = port: int
 if __name__ == "__main__":
+    butler.load()
     app.run(port=int(sys.argv[1]))

@@ -1,0 +1,30 @@
+{
+    "name": "Native pack",
+    "author": "qigan",
+    "version": "1.0",
+    "nodes": [
+
+    ],
+    "types": [
+        { 
+            "name": "int",
+            "color": "105000",
+            "type": "nat"
+        },
+        { 
+            "name": "float",
+            "color": "105030",
+            "type": "nat"
+        },
+        { 
+            "name": "list",
+            "color": "000ff0",
+            "type": "nat"
+        },
+        { 
+            "name": "string",
+            "color": "3Aff00",
+            "type": "nat"
+        }
+    ]
+}

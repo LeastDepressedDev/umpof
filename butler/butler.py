@@ -11,7 +11,7 @@ mpwd = None
 packs = []
 
 def cont_t(pth):
-    ds = os.listdir()
+    ds = os.listdir(pth)
     for v in ds:
         if not os.path.isdir(v) and v.endswith("pack.json"): return True
     return False

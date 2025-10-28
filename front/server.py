@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-    pass
+    return ""
 
 # Argv: [1] = port: int
 if __name__ == "__main__":

@@ -1,16 +1,73 @@
-#!/bin/bash
+#!/bin/python3
+
+#build dir
+# cp -r defpack tpacks
+
+
+# # Environs
+# export PACK_INFO_REQ="https://127.0.0.1:3017/packs"
+
+# # Params
+# BUTLER_PORT=3017
+# FRONT_PORT=8080
+
+# echo "Running butler server"
+# cd butler && python3 server.py $BUTLER_PORT & disown
+# echo -e "\n\n\n\n\n\n"
+
+# echo "Running frontend server"
+# cd front && python3 server.py $FRONT_PORT & disown
+# echo -e "\n\n\n\n\n\n"
+
+
+import asyncio
+import sys
+import subprocess
+import time
+import os
+
 
 # Environs
-export PACK_INFO_REQ="https://127.0.0.1:3017/packs"
+os.environ["PACK_INFO_REQ"]="https://127.0.0.1:3017/packs"
 
 # Params
 BUTLER_PORT=3017
 FRONT_PORT=8080
 
-echo "Running butler server"
-cd butler && python3 server.py $BUTLER_PORT & disown
-echo -e "\n\n\n\n\n\n"
 
-echo "Running frontend server"
-cd front && python3 server.py $FRONT_PORT & disown
-echo -e "\n\n\n\n\n\n"
+async def run_butler():
+    global butler_serv
+    # Create the subprocess; redirect stdout to a pipe
+    butler_serv = await asyncio.create_subprocess_shell(
+        f"cd butler && python3 server.py {BUTLER_PORT}",
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE, env=os.environ)
+    
+    # l, e = await butler_serv.communicate()
+    # print(l, e)
+    
+async def run_front():
+    global front_serv
+    # Create the subprocess; redirect stdout to a pipe
+    front_serv = await asyncio.create_subprocess_shell(
+        f"cd front && python3 server.py {FRONT_PORT}",
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE, env=os.environ)
+    
+    # l, e = await front_serv.communicate()
+    # print(l, e)
+    
+
+if __name__ == "__main__":
+
+    subprocess.call(["cp", "-r", "defpack", "tpacks"])
+
+    print("Turn 1")
+
+    asyncio.run(run_butler())
+    print("started butler")
+    time.sleep(1)
+    asyncio.run(run_front())
+    print("started front")
+    while 1: 
+        pass
