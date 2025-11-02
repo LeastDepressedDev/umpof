@@ -3,7 +3,37 @@
     "author": "qigan",
     "version": "1.0",
     "nodes": [
-
+        {
+            "name": "Test node 1", 
+            "group": "ints", 
+            "description": "Test description", 
+            "exec-type": "python", 
+            "exec": "sum.py", 
+            "format": [ 
+                {
+                    "block": "рeader",
+                    "text": "Test header"
+                },
+                { 
+                    "block": "input",
+                    "text": "Test input 1",
+                    "unid": "a",
+                    "type": "int"
+                },
+                {
+                    "block": "input",
+                    "text": "Test input 2",
+                    "unid": "b",
+                    "type": "int"
+                },
+                { 
+                    "block": "output",
+                    "text": "Test output",
+                    "unid": "ta",
+                    "type": "int"
+                }
+            ]
+        }
     ],
     "types": [
         { 
