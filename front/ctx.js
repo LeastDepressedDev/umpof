@@ -1,15 +1,16 @@
 let main_context_menu = [
     {
-        title: "Node",
+        title: "New",
         action: "sub",
         w: 100,
         val: [
             {
-                title: "Test node",
-                action: "fun",
-                val: function() {
-                    alert("nigga");
-                }
+                title: "Node",
+                action: "sub",
+                w: 100,
+                val: [
+                    
+                ]
             }
         ]
     }

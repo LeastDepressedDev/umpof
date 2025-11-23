@@ -53,21 +53,6 @@ let test_context_meny = [
 
 var DWINDOWS = {}
 
-var actual_m_pos = [0, 0]
-var deltas = [0, 0]
-
-document.body.onmousemove = function (event) {
-    deltas = [event.clientX - actual_m_pos[0], event.clientY - actual_m_pos[1]]
-    actual_m_pos = [event.clientX, event.clientY]
-}
-
-document.body.onmouseleave = function (event) {
-    let eles = document.getElementsByClassName("dwindow");
-    for (let i = 0; i < eles.length; i++) {
-        eles[i].setAttribute("mstate", "false");
-    }
-}
-
 function create_dwindow(title, dimensions, bodyHtml, specify_container) {
     let root = document.createElement("div");
     root.setAttribute("mstate", "false")
@@ -98,13 +83,6 @@ function create_dwindow(title, dimensions, bodyHtml, specify_container) {
             root.style = `left: ${xc}px; top: ${yc}px; width: ${dimensions.width}px; height: ${dimensions.height}px;`
             conts[i].appendChild(root);
         }
-    }
-}
-
-document.body.onclick = function (event) {
-    let eles = document.getElementsByClassName("dcontext");
-    for (let i = 0; i < eles.length; i++) {
-        eles[i].remove();
     }
 }
 
@@ -164,37 +142,6 @@ function create_context_menu(x, y, width, menu, stable, areas) {
     document.getElementById("cm-container").appendChild(root);
     return root;
 }
-
-
-/*
-    This is probably unnecessary but who cares
-*/
-setInterval(() => {
-    let eles = document.getElementsByClassName("dcontext");
-    for (let i = 0; i < eles.length; i++) {
-        if (eles[i].getAttribute("stable") == "false") {
-            if (check___ex(dcontext_mapper[eles[i]])) {
-                eles[i].remove();
-            }
-        }
-    }
-}, 10);
-
-
-
-
-
-setInterval(() => {
-    let eles = document.getElementsByClassName("dwindow");
-    for (let i = 0; i < eles.length; i++) {
-        if (eles[i].getAttribute("mstate") == "true") {
-            //console.log(parseInt(eles[i].style.left) + deltas[0])
-            eles[i].style.left = `${parseInt(eles[i].style.left) + deltas[0]}px`;
-            eles[i].style.top = `${parseInt(eles[i].style.top) + deltas[1]}px`;
-        }
-    }
-    deltas = [0, 0]
-}, 1);
 
 function new_dim(w, h) {
     return {width: w, height: h}

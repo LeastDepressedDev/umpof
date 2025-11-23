@@ -1,4 +1,5 @@
 {
+    "id": "defpack",
     "name": "Native pack",
     "author": "qigan",
     "version": "1.0",
@@ -6,12 +7,45 @@
         {
             "name": "Test node 1", 
             "group": "ints", 
+            "width": 100,
             "description": "Test description", 
             "exec-type": "python", 
             "exec": "sum.py", 
             "format": [ 
                 {
-                    "block": "рeader",
+                    "block": "header",
+                    "text": "Test header"
+                },
+                { 
+                    "block": "input",
+                    "text": "Test input 1",
+                    "unid": "a",
+                    "type": "int"
+                },
+                {
+                    "block": "input",
+                    "text": "Test input 2",
+                    "unid": "b",
+                    "type": "int"
+                },
+                { 
+                    "block": "output",
+                    "text": "Test output",
+                    "unid": "ta",
+                    "type": "int"
+                }
+            ]
+        },
+        {
+            "name": "Test node 2", 
+            "group": "ints", 
+            "width": 100,
+            "description": "Test description 2", 
+            "exec-type": "python", 
+            "exec": "sum.py", 
+            "format": [ 
+                {
+                    "block": "header",
                     "text": "Test header"
                 },
                 { 

@@ -14,7 +14,8 @@ resource_list = {
     "ctx.js": "ctx.js",
     "dwindow.js": "dwindow.js",
     "project.js": "project.js",
-    "workspace.js": "workspace.js"
+    "workspace.js": "workspace.js",
+    "gevs.js": "gevs.js"
 }
 
 @app.route("/")
@@ -36,6 +37,10 @@ def workspace_rq():
 @app.route("/dwindow.js")
 def dwindow_rq():
     return resource_list["dwindow.js"]
+
+@app.route("/gevs.js")
+def gevs_rq():
+    return resource_list["gevs.js"]
 
 
 # Argv: [1] = port: int

@@ -54,6 +54,63 @@
         .dcontext-part:hover {
             background-color: aqua;
         }
+
+
+
+        .dnode {
+            position: absolute;
+            background-color: rgb(66, 66, 66);
+            border-radius: 10px;
+            border: solid 2px rgb(93, 89, 94);
+            overflow: hidden;
+            color: white;
+            user-select: none;
+        }
+
+        /* .dnode:hover {
+            outline: 2px rgb(255, 255, 255);
+        } */
+
+        .dnode-title {
+            width: 100%;
+            height: 20px;
+            text-align: center;
+            background-color: rgb(78, 78, 78);
+        }
+
+        .dblock {
+            margin-left: 10px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .dnode-ck-input, .dnode-ck-output {
+            position: absolute;
+            display: inline-block;
+            align-self: center;
+            width: 8px;
+            height: 8px;
+            border-radius: 15px;
+        }
+
+        .dnode-ck-input {
+            left: 0%;
+            margin-left: 3px;
+            background-color: blue;
+        }
+
+        .dnode-ck-output {
+            right: 0%;
+            margin-right: 3px;
+            background-color: red;
+        }
+
+        .dnode-ck-input:hover, .dnode-ck-output:hover {
+            border: 2px solid white;
+        }
+
+
+
     </style>
 
     <style>
@@ -83,6 +140,14 @@
             height: 0%;
             width: 0%;
         }
+
+        #drawer {
+            position: absolute;
+            left: 0%;
+            right: 0%;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 
     <head>
@@ -93,9 +158,11 @@
         <div id="container" class="container">
             <div class="up-bar"></div>
             <div class="dwindow-container"></div>
-            <div class="wsp">
-
+            <canvas id="drawer"></canvas>
+            <div class="wsp" id="wsp" style="z-index: 1;">
+                
             </div>
+            
             <div id="cm-container" class="cm-container" style="z-index: 200;"></div>
         </div>
     </body>
@@ -104,10 +171,13 @@
     <script src="workspace.js"></script>
     <script src="ctx.js"></script>
     <script src="project.js"></script>
+    <script src="gevs.js"></script>
 
     <!--Test init script-->
     <script>
         // create_dwindow("Test", new_dim(600, 400), "<h3>Ligmaballs</h3>");
         //create_context_menu(200, 100, 50, test_context_meny, "true");
+        let temp_z = gen_project_base(lr_config)
+        load_project(temp_z)
     </script>
 </html>
