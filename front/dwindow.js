@@ -64,6 +64,8 @@ function create_dwindow(title, dimensions, bodyHtml, specify_container) {
 
     let xc = dimensions.x == undefined ? container.offsetWidth/2-dimensions.width/2 : dimensions.x;
     let yc = dimensions.y == undefined ? container.offsetHeight/2-dimensions.height/2 : dimensions.y;
+    dimensions.x = xc;
+    dimensions.y = yc;
 
 
     let tem = document.createElement("div");
@@ -77,16 +79,20 @@ function create_dwindow(title, dimensions, bodyHtml, specify_container) {
     body_part.innerHTML = bodyHtml;
     body_part.className = "dwindow-body";
     root.appendChild(body_part);
+    document.addEventListener('keydown', function (event) {
+        if (event.code == "Escape" && is_mouse_in([dimensions.x, dimensions.y, dimensions.width, dimensions.height])) root.remove();
+    });
 
     for (let i = 0; i < conts.length; i++) {
         if (specify_container != undefined && specify_container == conts[i].id || specify_container == undefined) {
-            root.style = `left: ${xc}px; top: ${yc}px; width: ${dimensions.width}px; height: ${dimensions.height}px;`
+            root.style = `left: ${xc}px; top: ${yc}px; width: ${dimensions.width}px; height: ${dimensions.height}px; z-index: 50;`
             conts[i].appendChild(root);
         }
     }
 }
 
 function is_mouse_in(v) {
+    //console.log(`${actual_m_pos[0]} ${actual_m_pos[1]} --- ${v[0]}+${v[2]} ${v[1]}+${v[3]}`);
     return (v[0] <= actual_m_pos[0] && actual_m_pos[0] <= v[0]+v[2] && v[1] <= actual_m_pos[1] && actual_m_pos[1] <= v[1]+v[3]);
 }
 
@@ -100,10 +106,11 @@ function check___ex(areas) {
 }
 
 function create_context_menu(x, y, width, menu, stable, areas) {
+        console.log(x,y,width);
     if (areas == undefined) areas = [];
     let root = document.createElement("div");
-    root.style = `width: ${width}px; left: ${x}px; top: ${y}px;`
-    root.setAttribute("stable", stable)
+    root.style = `width: ${width}px; left: ${x}px; top: ${y}px; z-index: 30;`;
+    root.setAttribute("stable", stable);
     root.className = "dcontext";
     root.onmouseleave = function (event) {
         setTimeout(() => {

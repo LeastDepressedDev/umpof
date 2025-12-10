@@ -128,9 +128,10 @@
             position: absolute;
             top: 0%;
             left: 0%;
-            height: 25px;
+            height: 2.3%;
             width: 100%;
             background-color: gray;
+            z-index: 100;
         }
 
         .wsp {
@@ -150,32 +151,53 @@
         }
     </style>
 
+    <style>
+        .up-bar-comp {
+            width: 5%;
+            height: 100%;
+            padding-right: 1%;
+            padding-left: 1%;
+            user-select: none;
+        }
+
+        .up-bar-comp:hover {
+            background-color: aqua;
+        }
+    </style>
+
     <head>
         <title id="TitleScreeni">Umpof</title>
         <meta charset="utf-8">
     </head>
     <body>
         <div id="container" class="container">
-            <div class="up-bar"></div>
-            <div class="dwindow-container"></div>
+            <div class="up-bar">
+                <span id="file-bar" class="up-bar-comp" onclick="setTimeout(() => callContextFromIdBar('file-bar'), 100);">File</span>
+                
+            </div>
+            <div class="dwindow-container" style="z-index: 50;"></div>
             <canvas id="drawer"></canvas>
             <div class="wsp" id="wsp" style="z-index: 1;">
                 
             </div>
             
-            <div id="cm-container" class="cm-container" style="z-index: 200;"></div>
+            <div id="cm-container" class="cm-container" style="z-index: 30;"></div>
+            
         </div>
     </body>
+
+    <button onclick=""></button>
 
     <script src="dwindow.js"></script>
     <script src="workspace.js"></script>
     <script src="ctx.js"></script>
     <script src="project.js"></script>
     <script src="gevs.js"></script>
+    <script src="comp.js"></script>
 
     <!--Test init script-->
     <script>
-        // create_dwindow("Test", new_dim(600, 400), "<h3>Ligmaballs</h3>");
+        //create_dwindow("Test", new_dim(600, 400), "<h3>Ligmaballs</h3>");
         //create_context_menu(200, 100, 50, test_context_meny, "true");
         let temp_z = gen_project_base(lr_config)
         load_project(temp_z)

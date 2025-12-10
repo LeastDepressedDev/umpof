@@ -5,6 +5,7 @@
     "version": "1.0",
     "nodes": [
         {
+            "id": "test1",
             "name": "Test node 1", 
             "group": "ints", 
             "width": 100,
@@ -37,6 +38,7 @@
             ]
         },
         {
+            "id": "test2",
             "name": "Test node 2", 
             "group": "ints", 
             "width": 100,
@@ -67,12 +69,55 @@
                     "type": "int"
                 }
             ]
+        },
+        {
+            "id": "targettest1",
+            "flag": "target",
+            "name": "Test target", 
+            "group": "targets", 
+            "width": 100,
+            "description": "Test target lol", 
+            "exec-type": "python", 
+            "exec": "out.py", 
+            "format": [ 
+                { 
+                    "block": "input",
+                    "text": "Receive",
+                    "unid": "a",
+                    "type": "int"
+                }
+            ]
+        },
+        {
+            "id": "testemit",
+            "name": "Test emitter 1",
+            "group": "ints",
+            "width": 120,
+            "description": "Emits ints",
+            "exec-type": "python",
+            "exec": "emit.py",
+            "format": [
+                {
+                    "block": "output",
+                    "text": "Emit",
+                    "unid": "a",
+                    "type": "int"
+                }
+            ],
+            "prefs": [
+                {
+                    "id": "ival",
+                    "name": "Int value",
+                    "type": "text",
+                    "val": "0"
+                }
+            ]
         }
     ],
     "types": [
         { 
             "name": "int",
-            "color": "105000",
+            "color": "20A500",
             "type": "nat"
         },
         { 

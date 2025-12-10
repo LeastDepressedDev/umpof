@@ -31,16 +31,16 @@ document.body.onclick = function (event) {
 /*
     This is probably unnecessary but who cares
 */
-setInterval(() => {
-    let eles = document.getElementsByClassName("dcontext");
-    for (let i = 0; i < eles.length; i++) {
-        if (eles[i].getAttribute("stable") == "false") {
-            if (check___ex(dcontext_mapper[eles[i]])) {
-                eles[i].remove();
-            }
-        }
-    }
-}, 10);
+// setInterval(() => {
+//     let eles = document.getElementsByClassName("dcontext");
+//     for (let i = 0; i < eles.length; i++) {
+//         if (eles[i].getAttribute("stable") == "false") {
+//             if (check___ex(dcontext_mapper[eles[i]])) {
+//                 eles[i].remove();
+//             }
+//         }
+//     }
+// }, 10);
 
 
 
@@ -107,7 +107,7 @@ setInterval(() => {
                 ctx.moveTo(dims1.left+dims1.width/2,dims1.top+dims1.height/2);
                 ctx.lineTo(dims2.left+dims2.width/2,dims2.top+dims2.height/2);
                 ctx.lineWidth=4;
-                ctx.strokeStyle = "blue";
+                ctx.strokeStyle = `#${TYPELESS.get(lk.dtype).color}`;
                 ctx.stroke();
             });
         });

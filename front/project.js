@@ -1,9 +1,14 @@
 var PROJECT = null;
-var NODLESS = [];
+var NODLESS = {};
+var TYPELESS = new Map();
 
 var SELECTED_LINK = null;
 
-var eleidReverseMap = new Map();
+// Node LINKS reverse map
+var eleidReverseMap = new Map(); // Remove one on rm for both
+
+// node reverse map
+var eleToNodeAddr = new Map();
 
 async function request_packs() {
     return (await fetch("%pack_rq%")).json()
@@ -19,6 +24,7 @@ function create_new_node(nodeID) {
         uuid: crypto.randomUUID(),
         id: nodeID,
         ninf: ptbl_node_info,
+        prefs: ptbl_node_info.prefs,
         links: []
     }
 }
@@ -30,6 +36,10 @@ function exclude_rebuild_list(list, ioob) {
         m.push(list[i]);
     }
     return m;
+}
+
+function nodeFromLink(linkid) {
+    return eleToNodeAddr.get(eleidReverseMap.get(linkid).parent);
 }
 
 function link(eleid1, eleid2) {
@@ -81,8 +91,40 @@ function clock_link(t1, k) {
     }
 }
 
+function save_prefs_for(ele, part_l) {
+    part_l.forEach((part) => {
+        if (part[1] == "text") {
+            ele.prefs[part[2]].val = document.getElementById(part[0]).value;
+        }
+    });
+}
+
+function gen_prefs_window_of_node(ele) {
+    let gen = "";
+    let part_l = [];
+    if (ele.ninf.prefs != undefined) {
+        Object.values(ele.prefs).forEach((pref) => {
+            // TODO: Place for plugin adjustement
+            let sub_id = crypto.randomUUID();
+            if (pref.type == "text") {
+                part_l.push([sub_id, pref.type, pref.id]);
+                let part = `<div><label>${pref.name} </label><input id="${sub_id}" value="${pref.val}"></div>\n`
+                gen+=part;
+            }
+        });
+    }
+    let button_uuid = crypto.randomUUID();
+    let save_button = `<button id="${button_uuid}" style="position: absolute; right: 5px; bottom: 5px;">Save</button>\n`;
+    gen+=save_button;
+    create_dwindow(`${ele.ninf.name}'s preference`, new_dim(600, 400), gen);
+    document.getElementById(button_uuid).onclick = () => save_prefs_for(ele, part_l);
+}
+
 function add_node_to_prj(node) {
+    node.prefs = {};
+    node.ninf.prefs?.forEach((pref) => node.prefs[pref.id] = pref);
     PROJECT.nodes.push(node);
+    eleToNodeAddr.set(node.uuid, node);
 
     //
     let root = document.createElement("div");
@@ -101,11 +143,15 @@ function add_node_to_prj(node) {
         block.className = "dblock";
         if (form.block == "header") {
             block.innerHTML = `<p class="dnode-header"><b>${form.text}</b></p>`;
-        } else {
+        } else if (form.block == "input" || form.block == "output") {
             let tuid = crypto.randomUUID();
-            block.innerHTML = `<p class="dnode-text">${form.text}<span class="dnode-ck-${form.block}" id="${tuid}"></span></p>`;
+
+            block.innerHTML = `<p class="dnode-text">${form.text}<span class="dnode-ck-${form.block}" id="${tuid}" style="background-color: #${TYPELESS.get(form.type).color}"></span></p>`;
             var lk = {
+                parent: node.uuid,
+                unid: form.unid,
                 type: form.block,
+                dtype: form.type,
                 eleid: tuid,
                 con: form.block == "output" ? [] : null
             };
@@ -165,36 +211,44 @@ function load_project(prj) {
         let tz = new Map();
         a.forEach(c => tz.set(c.id, c));
 
-
-
         let flag0 = true;
         prj.using.forEach(v => {
             if (!tz.has(v)) flag0 = false;
         });
 
         if (flag0) {
+
                 PROJECT = prj;
                 
                 let node_list = [];
+                let type_list = [];
                 tz.forEach((v, k) => {
                     v.nodes.forEach(c => node_list.push(c));
+                    v.types.forEach(c => type_list.push(c));
                 });
                 
-                NODLESS = node_list; //Change later to grouped map
                 main_context_menu[0].val[0].val = [];
 
-                for (let i  = 0; i < NODLESS.length; i++) {
-                    let c = NODLESS[i];
+                node_list.forEach(vk => {
+                    NODLESS[vk.id] = vk;
                     main_context_menu[0].val[0].val.push({
-                        title: c.name,
+                        title: vk.name,
                         action: "fun",
                         val: function() {
-                            add_node_to_prj(create_new_node(i));
+                            add_node_to_prj(create_new_node(vk.id));
                         }
                     });
-                }
+                });
+
+                type_list.forEach(vk => {
+                    TYPELESS.set(vk.name, vk);
+                });
+
+
+
+                
         } else {
-            console.log("Not all packs are present... Failed to load project!")
+            console.log("Not all packs are present... Failed to load project!") // TODO: Make better messaging
         }
 
 
