@@ -80,15 +80,20 @@ function create_dwindow(title, dimensions, bodyHtml, specify_container) {
     body_part.className = "dwindow-body";
     root.appendChild(body_part);
     document.addEventListener('keydown', function (event) {
-        if (event.code == "Escape" && is_mouse_in([dimensions.x, dimensions.y, dimensions.width, dimensions.height])) root.remove();
+        if (event.code == "Escape" /*&& is_mouse_in([dimensions.x, dimensions.y, dimensions.width, dimensions.height])*/) root.remove();
     });
 
+    let ids_of = []
     for (let i = 0; i < conts.length; i++) {
         if (specify_container != undefined && specify_container == conts[i].id || specify_container == undefined) {
-            root.style = `left: ${xc}px; top: ${yc}px; width: ${dimensions.width}px; height: ${dimensions.height}px; z-index: 50;`
+            root.style = `left: ${xc}px; top: ${yc}px; width: ${dimensions.width}px; height: ${dimensions.height}px; z-index: 50;`;
+            root.id = `${crypto.randomUUID()}`;
             conts[i].appendChild(root);
+            ids_of.push(root.id);
         }
     }
+
+    return ids_of;
 }
 
 function is_mouse_in(v) {

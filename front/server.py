@@ -6,7 +6,8 @@ import fcfg
 app = Flask(__name__)
 
 replaces = [
-    ("%pack_rq%", fcfg.cfg["packinfo"])
+    ("%pack_rq%", fcfg.cfg["def_prod_server"]+"/packs"),
+    ("%prod_addr%", fcfg.cfg["def_prod_server"])
 ]
 
 resource_list = {

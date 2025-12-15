@@ -29,7 +29,7 @@ var NAMED_CONTEXTS = {
         {
             title: "New",
             action: "fun",
-            val : function() {}
+            val : () => new_project()
         },
         {
             title: "Load",
@@ -39,12 +39,14 @@ var NAMED_CONTEXTS = {
         {
             title: "Save",
             action: "fun",
-            val : function() {}
+            val : function() {
+
+            }
         },
         {
             title: "Options",
             action: "fun",
-            val : function() {}
+            val : () => createOptionsWindow(true)
         }
     ]
 }
@@ -112,14 +114,14 @@ function replaceDefaultCtx() {
 
 if (document.addEventListener) {
     document.addEventListener('contextmenu', function(e) {
-        replaceDefaultCtx();
-
         e.preventDefault();
+        if (PROJECT == null) return;
+        replaceDefaultCtx();
     }, false);
 } else {
     document.attachEvent('oncontextmenu', function() {
-        replaceDefaultCtx();
-
         window.event.returnValue = false;
+        if (PROJECT == null) return;
+        replaceDefaultCtx();
     });
 }

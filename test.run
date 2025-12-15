@@ -28,7 +28,7 @@ import os
 
 
 # Environs
-os.environ["PACK_INFO_REQ"]="https://127.0.0.1:3017/packs"
+os.environ["DEF_PROD_SERVER"]="https://127.0.0.1:3017"
 
 # Params
 BUTLER_PORT=3017
@@ -39,7 +39,7 @@ async def run_butler():
     global butler_serv
     # Create the subprocess; redirect stdout to a pipe
     butler_serv = await asyncio.create_subprocess_shell(
-        f"cd butler && python3 server.py {BUTLER_PORT}",
+        f"cd prod_server && python3 server.py {BUTLER_PORT}",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE, env=os.environ)
     

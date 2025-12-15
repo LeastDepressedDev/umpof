@@ -1,0 +1,67 @@
+{
+    "name": "Test pack 1",
+    "author": "qigan",
+    "version": "1.0a",
+    "nodes": [
+        {
+            "flag": "flag", // Optional node flag, e. g. target
+            "id": "Node id", // Node register id
+            "name": "Test node 1", //Node display name
+            "group": "ints", //Optional
+            "description": "Test description", //Node description
+            "exec-type": "python", //Type of node meaning
+            "exec": "sum.py", //Path to the executor
+            "format": [ //Format decorator for node
+                { //Example of header
+                    "block": "рeader",
+                    "text": "Test header"
+                },
+                { //Example of inputs
+                    "block": "input",
+                    "text": "Test input 1",
+                    "unid": "a",
+                    "type": "int"
+                },
+                {
+                    "block": "input",
+                    "text": "Test input 2",
+                    "unid": "b",
+                    "type": "int"
+                },
+                 { //Example of an output
+                    "block": "output",
+                    "text": "Test output",
+                    "unid": "ta",
+                    "type": "int"
+                }
+            ],
+            "prefs": [ //Inner preference of node list
+                {
+                    "id": "def_pref", //Id of preference,
+                    "name": "pref name", // Preference display name
+                    "val": "0", // Default value - always string cuz it's just easier
+                    "type": "text" // Type for visual area to intrepret
+                }
+            ]
+        }
+    ],
+    "types": [ //Types definiton
+        { //Complex structures
+            "name": "vec3i",
+            "color": "ff0000",
+            "type": "struct",
+            "struct": ["int", "int", "int"]
+        },
+        { //Simple inheritance
+            "name": "aint",
+            "color": "00ff00",
+            "type": "ref",
+            "ref": "int"
+        },
+        { //Native type, will be properly implemented later
+            "name": "int",
+            "color": "0000ff",
+            "type": "nat"
+        }
+    ]
+}

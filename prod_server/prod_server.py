@@ -3,8 +3,9 @@ import json
 import sys
 
 cfg = {
-    "allow-reload": True,
-    "pack-path": "/home/sirtage/all/projects/umpof/tpacks"
+    "allow-reload": True, # True = allow runtime reloads of active packs via /reload
+    "pack-path": "/home/sirtage/all/projects/umpof/tpacks", # Path to the packs on server
+    "runtime-debug": False # True = if server contains a core umpof service for debugging
 }
 
 mpwd = None

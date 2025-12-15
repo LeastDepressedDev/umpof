@@ -74,6 +74,7 @@ document.getElementById("drawer").onclick = function(event) {
 }
 
 setInterval(() => {
+    if (PROJECT == null) return;
     var canvas=document.getElementById("drawer");
     var ctx=canvas.getContext("2d");
     canvas.width = canvas.getBoundingClientRect().width;

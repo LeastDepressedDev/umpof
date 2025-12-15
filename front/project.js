@@ -15,7 +15,72 @@ async function request_packs() {
 }
 
 function new_project() {
+    createOptionsWindow(false);
+}
 
+function createOptionsWindow(bfm) {
+    let innerHTML = "";
+
+    innerHTML+="<h3>Details</h3>";
+    innerHTML+=`<div><label>Project name    </label><input id="prj.name" value="${bfm ? PROJECT.name : ''}"></div>`;
+    innerHTML+=`<div><label>Project author   </label><input id="prj.author" value="${bfm ? PROJECT.author : ''}"></div>`;
+
+
+
+    innerHTML+=`<h3>Other</h3>`;
+    let innerv = "";
+    if (bfm) Object.entries(PROJECT.ext_prefs).forEach((kv) => innerv += `${kv[0]}:${kv[1]}\n`);
+
+    innerHTML+=`<div><textarea id="prj.ext_field" style="width: 200px; height 60px;" placeholder="Place for custom external preferences strings.\n format: key:val" value="${innerv}"></textarea></div>`
+
+    
+    innerHTML+=`<button id="prj.construct">${bfm ? "Save" : "Construct"}</button>`
+    let winds = create_dwindow("New project", new_dim(1000, 700), innerHTML);
+
+    document.getElementById("prj.construct").onclick = function(event) {
+        let exts = {};
+        document.getElementById("prj.ext_field").value.split("\n").forEach((line) => {
+            let part = line.split(":");
+            if (part.length === 2) {
+                exts[part[0]] = part[1];
+            }
+        });
+
+// let lr_config = {
+//     name: "Test project 1",
+//     author: "qigan",
+//     using: [
+//         "defpack"
+//     ],
+//     nodes: [],
+//     ext_prefs: {}
+// }
+
+        if (bfm) {
+            PROJECT.name = document.getElementById("prj.name").value;
+            PROJECT.author = document.getElementById("prj.author").value;
+            PROJECT.ext_prefs = exts;
+        } else {
+            let prj_conf = {
+                name: document.getElementById("prj.name").value,
+                author: document.getElementById("prj.author").value,
+                using: [
+                    "defpack"
+                ],
+                nodes: [],
+                ext_prefs: exts
+            };
+
+            document.getElementById("cm-container").innerHTML = "";
+            document.getElementById("wsp").innerHTML = "";
+
+            load_project(prj_conf);
+            
+
+
+            winds.forEach((wind) => document.getElementById(wind).remove());
+        }
+    }
 }
 
 function create_new_node(nodeID) {
@@ -122,7 +187,7 @@ function gen_prefs_window_of_node(ele) {
 
 function add_node_to_prj(node) {
     node.prefs = {};
-    node.ninf.prefs?.forEach((pref) => node.prefs[pref.id] = pref);
+    node.ninf.prefs?.forEach((pref) => node.prefs[pref.id] = {...pref});
     PROJECT.nodes.push(node);
     eleToNodeAddr.set(node.uuid, node);
 
@@ -200,10 +265,6 @@ let lr_config = {
     ],
     nodes: [],
     ext_prefs: {}
-}
-
-function gen_project_base(config) {
-    return lr_config // TODO: Change to config from gui from new_project()
 }
 
 function load_project(prj) {

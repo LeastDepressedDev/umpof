@@ -26,11 +26,15 @@ uuid;nodeid
 uuid1.interfaceid;uuid2.interfaceid
 ...
  
-  
+#starters
+uuid1
+uuid2
+...
   
   
  */
 function formalize() {
+    let ret = {};
     let op = "";
 
     let targets = define_targets();
@@ -65,7 +69,28 @@ function formalize() {
 
         op+=`${node.uuid}\n`
     });
-    return op;
+
+    ret.main_line = op;
+
+    let request_prefs_body = {};
+    nudl.forEach((node) => {
+        if (Object.keys(node.prefs).length > 0) {
+            request_prefs_body[node.uuid] = node.prefs;
+        }
+    })
+
+    ret.rq_body = request_prefs_body;
+    return ret;
+}
+
+function request_build() {
+    let ret = formalize();
+    fetch("%prod_addr%/build", {
+        "body": JSON.stringify(ret),
+        "method": "POST"
+    }).then((asw) => {
+        console.log(asw);
+    });
 }
 
 
