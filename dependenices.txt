@@ -3,3 +3,4 @@ Flask for Python
 Numpy for Python
 Java 20
 Redis Valkey
+Cmake >= 3.15

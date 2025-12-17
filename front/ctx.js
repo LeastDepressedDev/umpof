@@ -48,6 +48,18 @@ var NAMED_CONTEXTS = {
             action: "fun",
             val : () => createOptionsWindow(true)
         }
+    ],
+    "build-bar": [
+        {
+            title: "Build",
+            action: "fun",
+            val : () => just_build()
+        },
+        {
+            title: "Build+run",
+            action: "fun",
+            val : () => runtime_work(false)
+        }
     ]
 }
 

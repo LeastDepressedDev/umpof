@@ -17,7 +17,8 @@ resource_list = {
     "project.js": "project.js",
     "workspace.js": "workspace.js",
     "gevs.js": "gevs.js",
-    "comp.js": "comp.js"
+    "comp.js": "comp.js",
+    "comm.js": "comm.js"
 }
 
 @app.route("/")
@@ -47,6 +48,10 @@ def gevs_rq():
 @app.route("/comp.js")
 def comp_rq():
     return resource_list["comp.js"]
+
+@app.route("/comm.js")
+def comm_rq():
+    return resource_list["comm.js"]
 
 
 # Argv: [1] = port: int

@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/sirtage/all/projects/umpof/prod_server/compiler/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

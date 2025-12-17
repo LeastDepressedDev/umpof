@@ -83,14 +83,32 @@ function formalize() {
     return ret;
 }
 
-function request_build() {
+function request_build(rtexec, sendback) {
     let ret = formalize();
+    ret["rtexec"] = rtexec;
+    ret["sendback"] = sendback;
     fetch("%prod_addr%/build", {
+        "headers": {
+            "Content-Type": "application/json"
+        },
         "body": JSON.stringify(ret),
         "method": "POST"
     }).then((asw) => {
-        console.log(asw);
+        
+        asw.json().then((obj) => {
+            console.log("Connecting to the websocket session of this shit");
+            connect_streamsocket(obj.key)
+        });
     });
+}
+
+function just_build() {
+    request_build(false, true);
+}
+
+function runtime_work(sendback) {
+    // If allowed
+    request_build(true, sendback);
 }
 
 

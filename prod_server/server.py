@@ -1,9 +1,13 @@
 #!/bin/python3
 from flask import *
+from flask_socketio import SocketIO, emit
 import prod_server
 import sys
+import json
 
 app = Flask("Production server")
+app.config['SECRET_KEY'] = 'cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?'
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 @app.after_request
 def after_request(response):
@@ -31,7 +35,41 @@ def packs_list():
 def rtbq_req():
     return prod_server.cfg["runtime-debug"]
 
+@app.route("/build", methods=['GET', 'POST'])
+def build_req():
+    if request.is_json:
+        return prod_server.create_build_session(request.get_json())
+    else: return {"verdict": 0, "res": "Wrong"}
+
+
+
+
+@socketio.on('connect')
+def handle_connect():
+    emit('linkrq', {})
+
+@socketio.on('linkaw')
+def handle_linkaw(asw):
+    user_id = request.sid
+    #print(asw, user_id, prod_server.USER_WEB_LINKER.keys())
+    if asw["key"] in prod_server.USER_WEB_LINKER.keys():
+        prod_server.USER_WEB_LINKER[asw["key"]] = user_id
+        emit('linkres', {'result': 'OCK'})
+
+        if prod_server.BUILD_SESSIONS[asw["key"]]["status"] == "finished":
+            prod_server.BUILD_SESSIONS[asw["key"]]["sent"] = True
+            emit('build_ready', {})
+    else:
+        emit('linkres', {'result': 'DEN'})
+
+
+
+
+
+
+
+
 # Requires arguments: [1] = port: int
 if __name__ == "__main__":
     prod_server.load()
-    app.run(port=int(sys.argv[1]))
+    socketio.run(app, port=int(sys.argv[1]))

@@ -168,12 +168,13 @@
     <head>
         <title id="TitleScreeni">Umpof</title>
         <meta charset="utf-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="container" class="container">
             <div class="up-bar">
                 <span id="file-bar" class="up-bar-comp" onclick="setTimeout(() => callContextFromIdBar('file-bar'), 100);">File</span>
-                
+                <span id="build-bar" class="up-bar-comp" onclick="setTimeout(() => callContextFromIdBar('build-bar'), 100);">Build</span>
             </div>
             <div class="dwindow-container" style="z-index: 50;"></div>
             <canvas id="drawer"></canvas>
@@ -192,6 +193,7 @@
     <script src="project.js"></script>
     <script src="gevs.js"></script>
     <script src="comp.js"></script>
+    <script src="comm.js"></script>
 
     <!--Test init script-->
     <script>

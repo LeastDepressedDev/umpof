@@ -10,7 +10,7 @@
             "group": "ints", //Optional
             "description": "Test description", //Node description
             "exec-type": "python", //Type of node meaning
-            "exec": "sum.py", //Path to the executor
+            "exec": "sum.py", //Path to the executor,
             "format": [ //Format decorator for node
                 { //Example of header
                     "block": "рeader",
@@ -63,5 +63,11 @@
             "color": "0000ff",
             "type": "nat"
         }
+    ],
+    "mon_folders": [ // Folders inside the pack, that should be fully copied to the working directory during execution. For example assets, libraries
+        "libs", "assets"
+    ],
+    "mon_files": [ // Same as mon folders, but for files.
+        "external.cfg", "users.db"
     ]
 }

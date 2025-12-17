@@ -35,10 +35,10 @@ BUTLER_PORT=3017
 FRONT_PORT=8080
 
 
-async def run_butler():
-    global butler_serv
+async def run_prod():
+    global prod_serv
     # Create the subprocess; redirect stdout to a pipe
-    butler_serv = await asyncio.create_subprocess_shell(
+    prod_serv = await asyncio.create_subprocess_shell(
         f"cd prod_server && python3 server.py {BUTLER_PORT}",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE, env=os.environ)
@@ -60,12 +60,20 @@ async def run_front():
 
 if __name__ == "__main__":
 
-    subprocess.call(["cp", "-r", "defpack", "tpacks"])
+    print("Moving default packs")
+    os.system("cp -vr defpack tpacks")
+    #subprocess.call(["cp", "-r", "defpack", "tpacks"])
+    
+    print("Compiling cmpf")
+    os.system("cd prod_server/compiler && ./build.sh")
+
+    
+
 
     print("Turn 1")
 
-    asyncio.run(run_butler())
-    print("started butler")
+    asyncio.run(run_prod())
+    print("started prod_server")
     time.sleep(1)
     asyncio.run(run_front())
     print("started front")

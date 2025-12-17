@@ -1,0 +1,3 @@
+/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles/cmpf.dir
+/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles/edit_cache.dir
+/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles/rebuild_cache.dir
