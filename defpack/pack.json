@@ -5,101 +5,17 @@
     "version": "1.0",
     "nodes": [
         {
-            "id": "test1",
-            "name": "Test node 1", 
-            "group": "ints", 
-            "width": 100,
-            "description": "Test description", 
-            "exec-type": "python", 
-            "exec": "sum.py", 
-            "format": [ 
-                {
-                    "block": "header",
-                    "text": "Test header"
-                },
-                { 
-                    "block": "input",
-                    "text": "Test input 1",
-                    "unid": "a",
-                    "type": "int"
-                },
-                {
-                    "block": "input",
-                    "text": "Test input 2",
-                    "unid": "b",
-                    "type": "int"
-                },
-                { 
-                    "block": "output",
-                    "text": "Test output",
-                    "unid": "ta",
-                    "type": "int"
-                }
-            ]
-        },
-        {
-            "id": "test2",
-            "name": "Test node 2", 
-            "group": "ints", 
-            "width": 100,
-            "description": "Test description 2", 
-            "exec-type": "python", 
-            "exec": "sum.py", 
-            "format": [ 
-                {
-                    "block": "header",
-                    "text": "Test header"
-                },
-                { 
-                    "block": "input",
-                    "text": "Test input 1",
-                    "unid": "a",
-                    "type": "int"
-                },
-                {
-                    "block": "input",
-                    "text": "Test input 2",
-                    "unid": "b",
-                    "type": "int"
-                },
-                { 
-                    "block": "output",
-                    "text": "Test output",
-                    "unid": "ta",
-                    "type": "int"
-                }
-            ]
-        },
-        {
-            "id": "targettest1",
-            "flag": "target",
-            "name": "Test target", 
-            "group": "targets", 
-            "width": 100,
-            "description": "Test target lol", 
-            "exec-type": "python", 
-            "exec": "out.py", 
-            "format": [ 
-                { 
-                    "block": "input",
-                    "text": "Receive",
-                    "unid": "a",
-                    "type": "int"
-                }
-            ]
-        },
-        {
-            "id": "testemit",
-            "name": "Test emitter 1",
-            "group": "ints",
-            "width": 120,
-            "description": "Emits ints",
+            "id": "int_emmiter",
+            "name": "Integer emmiter",
+            "group": "emms",
+            "width": 140,
+            "description": "Emits integer value",
             "exec-type": "python",
-            "exec": "emit.py",
+            "exec": "emits/emit_int.py",
             "format": [
                 {
                     "block": "output",
-                    "text": "Emit",
+                    "text": "Integer",
                     "unid": "a",
                     "type": "int"
                 }
@@ -108,8 +24,83 @@
                 {
                     "id": "ival",
                     "name": "Int value",
-                    "type": "text",
+                    "type": "int",
                     "val": "0"
+                }
+            ]
+        },
+        {
+            "id": "float_emmiter",
+            "name": "Float emmiter",
+            "group": "emms",
+            "width": 140,
+            "description": "Emits float value",
+            "exec-type": "python",
+            "exec": "emits/emit_float.py",
+            "format": [
+                {
+                    "block": "output",
+                    "text": "Float",
+                    "unid": "a",
+                    "type": "float"
+                }
+            ],
+            "prefs": [
+                {
+                    "id": "ival",
+                    "name": "Float value",
+                    "type": "float",
+                    "val": "0"
+                }
+            ]
+        },
+        {
+            "id": "text_emmiter",
+            "name": "String emmiter",
+            "group": "ints",
+            "width": 140,
+            "description": "Emits string",
+            "exec-type": "python",
+            "exec": "emits/emit_text.py",
+            "format": [
+                {
+                    "block": "output",
+                    "text": "Text",
+                    "unid": "a",
+                    "type": "text"
+                }
+            ],
+            "prefs": [
+                {
+                    "id": "ival",
+                    "name": "Text value",
+                    "type": "text",
+                    "val": ""
+                }
+            ]
+        },
+
+
+
+
+
+
+
+
+        {
+            "flag": "target",
+            "id": "dummy_target",
+            "name": "Dummy target",
+            "group": "targets",
+            "width": 100,
+            "description": "Target that has no action",
+            "exec-type": "dummy",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "Any",
+                    "unid": "a",
+                    "type": "*"
                 }
             ]
         }
@@ -133,6 +124,11 @@
         { 
             "name": "text",
             "color": "3Aff00",
+            "type": "nat"
+        },
+        {
+            "name": "*",
+            "color": "ffffff",
             "type": "nat"
         }
     ]

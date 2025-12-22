@@ -57,8 +57,11 @@ def handle_linkaw(asw):
         emit('linkres', {'result': 'OCK'})
 
         if prod_server.BUILD_SESSIONS[asw["key"]]["status"] == "finished":
+            if prod_server.BUILD_SESSIONS[asw["key"]]["result"] == 0:
+                emit('build_ready', {})
+            else:
+                emit('msgm', {"msgm": "Error occured while building"})
             prod_server.BUILD_SESSIONS[asw["key"]]["sent"] = True
-            emit('build_ready', {})
     else:
         emit('linkres', {'result': 'DEN'})
 

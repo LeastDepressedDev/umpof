@@ -36,6 +36,10 @@ function connect_streamsocket(key) {
         // File download thingy here
         console.log("Download ready");
     });
+
+    ComSocket.on('msgm', function(msgin) {
+        console.log(msgin);
+    });
 }
 
 

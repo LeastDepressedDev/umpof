@@ -86,18 +86,82 @@ CMakeFiles/cmpf.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cmpf.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sirtage/all/projects/umpof/prod_server/compiler/src/main.cpp -o CMakeFiles/cmpf.dir/src/main.cpp.s
 
+CMakeFiles/cmpf.dir/src/setups.cpp.o: CMakeFiles/cmpf.dir/flags.make
+CMakeFiles/cmpf.dir/src/setups.cpp.o: src/setups.cpp
+CMakeFiles/cmpf.dir/src/setups.cpp.o: CMakeFiles/cmpf.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cmpf.dir/src/setups.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cmpf.dir/src/setups.cpp.o -MF CMakeFiles/cmpf.dir/src/setups.cpp.o.d -o CMakeFiles/cmpf.dir/src/setups.cpp.o -c /home/sirtage/all/projects/umpof/prod_server/compiler/src/setups.cpp
+
+CMakeFiles/cmpf.dir/src/setups.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cmpf.dir/src/setups.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sirtage/all/projects/umpof/prod_server/compiler/src/setups.cpp > CMakeFiles/cmpf.dir/src/setups.cpp.i
+
+CMakeFiles/cmpf.dir/src/setups.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cmpf.dir/src/setups.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sirtage/all/projects/umpof/prod_server/compiler/src/setups.cpp -o CMakeFiles/cmpf.dir/src/setups.cpp.s
+
+CMakeFiles/cmpf.dir/src/compiler.cpp.o: CMakeFiles/cmpf.dir/flags.make
+CMakeFiles/cmpf.dir/src/compiler.cpp.o: src/compiler.cpp
+CMakeFiles/cmpf.dir/src/compiler.cpp.o: CMakeFiles/cmpf.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cmpf.dir/src/compiler.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cmpf.dir/src/compiler.cpp.o -MF CMakeFiles/cmpf.dir/src/compiler.cpp.o.d -o CMakeFiles/cmpf.dir/src/compiler.cpp.o -c /home/sirtage/all/projects/umpof/prod_server/compiler/src/compiler.cpp
+
+CMakeFiles/cmpf.dir/src/compiler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cmpf.dir/src/compiler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sirtage/all/projects/umpof/prod_server/compiler/src/compiler.cpp > CMakeFiles/cmpf.dir/src/compiler.cpp.i
+
+CMakeFiles/cmpf.dir/src/compiler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cmpf.dir/src/compiler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sirtage/all/projects/umpof/prod_server/compiler/src/compiler.cpp -o CMakeFiles/cmpf.dir/src/compiler.cpp.s
+
+CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o: CMakeFiles/cmpf.dir/flags.make
+CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o: src/compiler_logging.cpp
+CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o: CMakeFiles/cmpf.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o -MF CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o.d -o CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o -c /home/sirtage/all/projects/umpof/prod_server/compiler/src/compiler_logging.cpp
+
+CMakeFiles/cmpf.dir/src/compiler_logging.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cmpf.dir/src/compiler_logging.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sirtage/all/projects/umpof/prod_server/compiler/src/compiler_logging.cpp > CMakeFiles/cmpf.dir/src/compiler_logging.cpp.i
+
+CMakeFiles/cmpf.dir/src/compiler_logging.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cmpf.dir/src/compiler_logging.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sirtage/all/projects/umpof/prod_server/compiler/src/compiler_logging.cpp -o CMakeFiles/cmpf.dir/src/compiler_logging.cpp.s
+
+CMakeFiles/cmpf.dir/src/nodeworks.cpp.o: CMakeFiles/cmpf.dir/flags.make
+CMakeFiles/cmpf.dir/src/nodeworks.cpp.o: src/nodeworks.cpp
+CMakeFiles/cmpf.dir/src/nodeworks.cpp.o: CMakeFiles/cmpf.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cmpf.dir/src/nodeworks.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cmpf.dir/src/nodeworks.cpp.o -MF CMakeFiles/cmpf.dir/src/nodeworks.cpp.o.d -o CMakeFiles/cmpf.dir/src/nodeworks.cpp.o -c /home/sirtage/all/projects/umpof/prod_server/compiler/src/nodeworks.cpp
+
+CMakeFiles/cmpf.dir/src/nodeworks.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cmpf.dir/src/nodeworks.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sirtage/all/projects/umpof/prod_server/compiler/src/nodeworks.cpp > CMakeFiles/cmpf.dir/src/nodeworks.cpp.i
+
+CMakeFiles/cmpf.dir/src/nodeworks.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cmpf.dir/src/nodeworks.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sirtage/all/projects/umpof/prod_server/compiler/src/nodeworks.cpp -o CMakeFiles/cmpf.dir/src/nodeworks.cpp.s
+
 # Object files for target cmpf
 cmpf_OBJECTS = \
-"CMakeFiles/cmpf.dir/src/main.cpp.o"
+"CMakeFiles/cmpf.dir/src/main.cpp.o" \
+"CMakeFiles/cmpf.dir/src/setups.cpp.o" \
+"CMakeFiles/cmpf.dir/src/compiler.cpp.o" \
+"CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o" \
+"CMakeFiles/cmpf.dir/src/nodeworks.cpp.o"
 
 # External object files for target cmpf
 cmpf_EXTERNAL_OBJECTS =
 
 cmpf: CMakeFiles/cmpf.dir/src/main.cpp.o
+cmpf: CMakeFiles/cmpf.dir/src/setups.cpp.o
+cmpf: CMakeFiles/cmpf.dir/src/compiler.cpp.o
+cmpf: CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o
+cmpf: CMakeFiles/cmpf.dir/src/nodeworks.cpp.o
 cmpf: CMakeFiles/cmpf.dir/build.make
 cmpf: CMakeFiles/cmpf.dir/compiler_depend.ts
 cmpf: CMakeFiles/cmpf.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable cmpf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable cmpf"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cmpf.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

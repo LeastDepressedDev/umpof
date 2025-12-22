@@ -171,7 +171,7 @@ function gen_prefs_window_of_node(ele) {
         Object.values(ele.prefs).forEach((pref) => {
             // TODO: Place for plugin adjustement
             let sub_id = crypto.randomUUID();
-            if (pref.type == "text") {
+            if (pref.type == "text" || pref.type == "int" || pref.type == "float") {
                 part_l.push([sub_id, pref.type, pref.id]);
                 let part = `<div><label>${pref.name} </label><input id="${sub_id}" value="${pref.val}"></div>\n`
                 gen+=part;

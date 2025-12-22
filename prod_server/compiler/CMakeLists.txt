@@ -1,10 +1,33 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.6)
 
 project(cmpf CXX)
 
-# Set the C++ standard to C++17 (or your preferred version)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+include(FetchContent)
 
-add_executable(cmpf src/main.cpp)
+FetchContent_declare(
+  nlohmann_json
+  GIT_REPOSITORY https://github.com/nlohmann/json
+)
+
+FetchContent_makeavailable(nlohmann_json)
+
+include_directories(src)
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+file(GLOB_RECURSE HEADERS "src/*.h")
+file(GLOB_RECURSE HEADERS "src/*.hpp*")
+
+
+
+add_executable(
+  cmpf 
+  src/main.cpp 
+  src/setups.cpp
+  src/compiler.cpp
+  src/compiler_logging.cpp
+  src/nodeworks.cpp
+)
+
+target_link_libraries(cmpf PRIVATE nlohmann_json::nlohmann_json)

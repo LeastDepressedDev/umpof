@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/sirtage/all/projects/umpof/prod_server/compiler/src -I/home/sirtage/all/projects/umpof/prod_server/compiler/_deps/nlohmann_json-src/include
 
 CXX_FLAGS = -std=gnu++17
 

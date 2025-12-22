@@ -2,5 +2,10 @@
 /tests
 /tpacks
 
+
+_deps
 __pycache__
+.vscode
 prod_server/compiler/cmpf
+prod_server/compiler/src/nlohmann
+CMakeFiles

@@ -129,6 +129,54 @@ cmpf/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/build
 .PHONY : cmpf/fast
 
+src/compiler.o: src/compiler.cpp.o
+.PHONY : src/compiler.o
+
+# target to build an object file
+src/compiler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/compiler.cpp.o
+.PHONY : src/compiler.cpp.o
+
+src/compiler.i: src/compiler.cpp.i
+.PHONY : src/compiler.i
+
+# target to preprocess a source file
+src/compiler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/compiler.cpp.i
+.PHONY : src/compiler.cpp.i
+
+src/compiler.s: src/compiler.cpp.s
+.PHONY : src/compiler.s
+
+# target to generate assembly for a file
+src/compiler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/compiler.cpp.s
+.PHONY : src/compiler.cpp.s
+
+src/compiler_logging.o: src/compiler_logging.cpp.o
+.PHONY : src/compiler_logging.o
+
+# target to build an object file
+src/compiler_logging.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o
+.PHONY : src/compiler_logging.cpp.o
+
+src/compiler_logging.i: src/compiler_logging.cpp.i
+.PHONY : src/compiler_logging.i
+
+# target to preprocess a source file
+src/compiler_logging.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/compiler_logging.cpp.i
+.PHONY : src/compiler_logging.cpp.i
+
+src/compiler_logging.s: src/compiler_logging.cpp.s
+.PHONY : src/compiler_logging.s
+
+# target to generate assembly for a file
+src/compiler_logging.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/compiler_logging.cpp.s
+.PHONY : src/compiler_logging.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -153,6 +201,54 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/nodeworks.o: src/nodeworks.cpp.o
+.PHONY : src/nodeworks.o
+
+# target to build an object file
+src/nodeworks.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/nodeworks.cpp.o
+.PHONY : src/nodeworks.cpp.o
+
+src/nodeworks.i: src/nodeworks.cpp.i
+.PHONY : src/nodeworks.i
+
+# target to preprocess a source file
+src/nodeworks.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/nodeworks.cpp.i
+.PHONY : src/nodeworks.cpp.i
+
+src/nodeworks.s: src/nodeworks.cpp.s
+.PHONY : src/nodeworks.s
+
+# target to generate assembly for a file
+src/nodeworks.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/nodeworks.cpp.s
+.PHONY : src/nodeworks.cpp.s
+
+src/setups.o: src/setups.cpp.o
+.PHONY : src/setups.o
+
+# target to build an object file
+src/setups.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/setups.cpp.o
+.PHONY : src/setups.cpp.o
+
+src/setups.i: src/setups.cpp.i
+.PHONY : src/setups.i
+
+# target to preprocess a source file
+src/setups.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/setups.cpp.i
+.PHONY : src/setups.cpp.i
+
+src/setups.s: src/setups.cpp.s
+.PHONY : src/setups.s
+
+# target to generate assembly for a file
+src/setups.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/setups.cpp.s
+.PHONY : src/setups.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,9 +258,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... cmpf"
+	@echo "... src/compiler.o"
+	@echo "... src/compiler.i"
+	@echo "... src/compiler.s"
+	@echo "... src/compiler_logging.o"
+	@echo "... src/compiler_logging.i"
+	@echo "... src/compiler_logging.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/nodeworks.o"
+	@echo "... src/nodeworks.i"
+	@echo "... src/nodeworks.s"
+	@echo "... src/setups.o"
+	@echo "... src/setups.i"
+	@echo "... src/setups.s"
 .PHONY : help
 
 

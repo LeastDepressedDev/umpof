@@ -44,6 +44,9 @@ function formalize() {
         rec_comp_m(nudl, 0, target);
     });
 
+    op += "#uprefs\n";
+    op += `using ${PROJECT.using.join(" ")}\n`
+
     op += "#nodes\n";
     nudl.forEach((node) => {op += `${node.uuid};${node.id}\n`});
     

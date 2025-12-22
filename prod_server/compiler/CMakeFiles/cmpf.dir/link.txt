@@ -1,1 +1,1 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/cmpf.dir/link.d CMakeFiles/cmpf.dir/src/main.cpp.o -o cmpf
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/cmpf.dir/link.d CMakeFiles/cmpf.dir/src/main.cpp.o CMakeFiles/cmpf.dir/src/setups.cpp.o CMakeFiles/cmpf.dir/src/compiler.cpp.o CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o CMakeFiles/cmpf.dir/src/nodeworks.cpp.o -o cmpf

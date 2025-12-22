@@ -43,11 +43,16 @@ def load():
     proc_dir(cfg["pack-path"])
 
 def finish(uuid, result):
-    BUILD_SESSIONS[uuid]["status"] = "finished"
-    BUILD_SESSIONS[uuid]["result"] = result
-    if USER_WEB_LINKER[uuid] != -1:
-        BUILD_SESSIONS[uuid]["sent"] = True
-        emit('build_ready', {}, room=USER_WEB_LINKER[uuid])
+    if (result == 0):
+        BUILD_SESSIONS[uuid]["status"] = "finished"
+        BUILD_SESSIONS[uuid]["result"] = result
+        if USER_WEB_LINKER[uuid] != -1:
+            BUILD_SESSIONS[uuid]["sent"] = True
+            emit('build_ready', {}, room=USER_WEB_LINKER[uuid])
+    else:
+        if USER_WEB_LINKER[uuid] != -1:
+            BUILD_SESSIONS[uuid]["sent"] = True
+            emit('msgm', {"msg": "Error occured while building"}, room=USER_WEB_LINKER[uuid])
 
 async def run_bproc(obj, ruind):
     global BUILD_SESSIONS
@@ -64,7 +69,7 @@ async def run_bproc(obj, ruind):
         "sent": False
     }
     proc = await asyncio.create_subprocess_shell(
-        f"./cmpf",
+        f"./cmpf {ruind}",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE, env=oviron)
     

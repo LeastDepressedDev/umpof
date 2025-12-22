@@ -64,19 +64,41 @@ CMAKE_BINARY_DIR = /home/sirtage/all/projects/umpof/prod_server/compiler
 
 # The main recursive "all" target.
 all: CMakeFiles/cmpf.dir/all
+all: _deps/nlohmann_json-build/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/cmpf.dir/codegen
+codegen: _deps/nlohmann_json-build/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: _deps/nlohmann_json-build/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/cmpf.dir/clean
+clean: _deps/nlohmann_json-build/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory _deps/nlohmann_json-build
+
+# Recursive "all" directory target.
+_deps/nlohmann_json-build/all:
+.PHONY : _deps/nlohmann_json-build/all
+
+# Recursive "codegen" directory target.
+_deps/nlohmann_json-build/codegen:
+.PHONY : _deps/nlohmann_json-build/codegen
+
+# Recursive "preinstall" directory target.
+_deps/nlohmann_json-build/preinstall:
+.PHONY : _deps/nlohmann_json-build/preinstall
+
+# Recursive "clean" directory target.
+_deps/nlohmann_json-build/clean:
+.PHONY : _deps/nlohmann_json-build/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/cmpf.dir
@@ -85,12 +107,12 @@ clean: CMakeFiles/cmpf.dir/clean
 CMakeFiles/cmpf.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=1,2 "Built target cmpf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target cmpf"
 .PHONY : CMakeFiles/cmpf.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cmpf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/cmpf.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles 0
 .PHONY : CMakeFiles/cmpf.dir/rule
@@ -102,7 +124,7 @@ cmpf: CMakeFiles/cmpf.dir/rule
 # codegen rule for target.
 CMakeFiles/cmpf.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=1,2 "Finished codegen for target cmpf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/sirtage/all/projects/umpof/prod_server/compiler/CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target cmpf"
 .PHONY : CMakeFiles/cmpf.dir/codegen
 
 # clean rule for target.

@@ -45,6 +45,35 @@
             ]
         }
     ],
+    "events": [ // Events is everything in this project. Event bus is soft, so it can be used for pretty much everything. (Except async).
+    // Structure of events is the same as nodes, but events can't have input links.
+        {
+            "event": "callback", // Unique parameter of event. Defines the name event corresponds
+            "flag": "flag", // Optional node flag, e. g. target
+            "id": "Node id", // Node register id
+            "name": "Test event 1", //Node display name
+            "group": "idk", //Optional
+            "description": "Test description", //Node description
+            "exec-type": "python", //Type of node meaning
+            "exec": "event1.py", //Path to the executor,
+            "format": [ //Format decorator for node
+                 { //Example of an output
+                    "block": "output",
+                    "text": "Test output",
+                    "unid": "ta",
+                    "type": "int"
+                }
+            ],
+            "prefs": [ //Inner preference of node list
+                {
+                    "id": "def_pref", //Id of preference,
+                    "name": "pref name", // Preference display name
+                    "val": "0", // Default value - always string cuz it's just easier
+                    "type": "text" // Type for visual area to intrepret
+                }
+            ]
+        }
+    ],
     "types": [ //Types definiton
         { //Complex structures
             "name": "vec3i",
@@ -62,6 +91,18 @@
             "name": "int",
             "color": "0000ff",
             "type": "nat"
+        },
+        {
+            "name": "text",
+            "color": "1fff00",
+            "type": "nat"
+        }
+    ],
+    "casts": [ // Type conversion between nodes when required possible cases
+        {
+            "from": "int", // From what type
+            "to": "text", // To what type
+            "conv": "itt.py" // Converter script. Atm accepts only .py files
         }
     ],
     "mon_folders": [ // Folders inside the pack, that should be fully copied to the working directory during execution. For example assets, libraries
