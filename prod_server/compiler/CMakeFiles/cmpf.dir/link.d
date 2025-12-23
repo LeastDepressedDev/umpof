@@ -7,6 +7,9 @@ cmpf: \
   CMakeFiles/cmpf.dir/src/compiler.cpp.o \
   CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o \
   CMakeFiles/cmpf.dir/src/nodeworks.cpp.o \
+  CMakeFiles/cmpf.dir/src/pack_proc.cpp.o \
+  CMakeFiles/cmpf.dir/src/packs.cpp.o \
+  CMakeFiles/cmpf.dir/src/comp_seq.cpp.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
@@ -50,6 +53,12 @@ CMakeFiles/cmpf.dir/src/compiler.cpp.o:
 CMakeFiles/cmpf.dir/src/compiler_logging.cpp.o:
 
 CMakeFiles/cmpf.dir/src/nodeworks.cpp.o:
+
+CMakeFiles/cmpf.dir/src/pack_proc.cpp.o:
+
+CMakeFiles/cmpf.dir/src/packs.cpp.o:
+
+CMakeFiles/cmpf.dir/src/comp_seq.cpp.o:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so:
 

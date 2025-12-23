@@ -1,7 +1,7 @@
 Python > 3.1
 Flask for Python
 Numpy for Python
-CXX > 15
+CXX >= 17
 Java 20
 Redis Valkey
 Cmake >= 3.6

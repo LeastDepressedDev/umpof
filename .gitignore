@@ -1,7 +1,7 @@
 /smuf
 /tests
 /tpacks
-
+/test.run
 
 _deps
 __pycache__

@@ -7,9 +7,7 @@
 using json = nlohmann::json;
 
 int main(int argc, char** argv) {
-    // for (int i = 0; i < argc; i++) {
-    //     printf("%s\n", argv[i]);
-    // }
+
     setup_dir(argv[1]);
 
     compiler cmp(argv[1], BUILD_MODE_MAIN::RT);

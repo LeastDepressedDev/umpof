@@ -20,6 +20,7 @@ namespace nodeworks
     public:
         std::string uuid;
         std::string class_id;
+        size_t execution_layer = 0;
         
         std::map<std::string, link*> links;
 

@@ -28,6 +28,9 @@ add_executable(
   src/compiler.cpp
   src/compiler_logging.cpp
   src/nodeworks.cpp
+  src/pack_proc.cpp
+  src/packs.cpp
+  src/comp_seq.cpp
 )
 
 target_link_libraries(cmpf PRIVATE nlohmann_json::nlohmann_json)

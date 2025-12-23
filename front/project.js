@@ -284,7 +284,10 @@ function load_project(prj) {
                 let node_list = [];
                 let type_list = [];
                 tz.forEach((v, k) => {
-                    v.nodes.forEach(c => node_list.push(c));
+                    v.nodes.forEach(c => {
+                        c.id = `${k}:${c.id}`
+                        node_list.push(c)}
+                    );
                     v.types.forEach(c => type_list.push(c));
                 });
                 

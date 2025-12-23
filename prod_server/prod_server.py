@@ -61,6 +61,7 @@ async def run_bproc(obj, ruind):
     plts = [v for v in obj["rq_body"].items()]
     oviron["MAIN_LINE"] = obj["main_line"]
     oviron["PREF_NODES_SZ"] = str(len(plts))
+    oviron["PACKS_DIR"] = cfg["pack-path"]
     for nid in plts:
         for name, val in nid[1].items():
             oviron[f"{nid[0]}.{name}"] = val["val"]

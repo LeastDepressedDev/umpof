@@ -129,6 +129,30 @@ cmpf/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/build
 .PHONY : cmpf/fast
 
+src/comp_seq.o: src/comp_seq.cpp.o
+.PHONY : src/comp_seq.o
+
+# target to build an object file
+src/comp_seq.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/comp_seq.cpp.o
+.PHONY : src/comp_seq.cpp.o
+
+src/comp_seq.i: src/comp_seq.cpp.i
+.PHONY : src/comp_seq.i
+
+# target to preprocess a source file
+src/comp_seq.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/comp_seq.cpp.i
+.PHONY : src/comp_seq.cpp.i
+
+src/comp_seq.s: src/comp_seq.cpp.s
+.PHONY : src/comp_seq.s
+
+# target to generate assembly for a file
+src/comp_seq.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/comp_seq.cpp.s
+.PHONY : src/comp_seq.cpp.s
+
 src/compiler.o: src/compiler.cpp.o
 .PHONY : src/compiler.o
 
@@ -225,6 +249,54 @@ src/nodeworks.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/nodeworks.cpp.s
 .PHONY : src/nodeworks.cpp.s
 
+src/pack_proc.o: src/pack_proc.cpp.o
+.PHONY : src/pack_proc.o
+
+# target to build an object file
+src/pack_proc.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pack_proc.cpp.o
+.PHONY : src/pack_proc.cpp.o
+
+src/pack_proc.i: src/pack_proc.cpp.i
+.PHONY : src/pack_proc.i
+
+# target to preprocess a source file
+src/pack_proc.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pack_proc.cpp.i
+.PHONY : src/pack_proc.cpp.i
+
+src/pack_proc.s: src/pack_proc.cpp.s
+.PHONY : src/pack_proc.s
+
+# target to generate assembly for a file
+src/pack_proc.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pack_proc.cpp.s
+.PHONY : src/pack_proc.cpp.s
+
+src/packs.o: src/packs.cpp.o
+.PHONY : src/packs.o
+
+# target to build an object file
+src/packs.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/packs.cpp.o
+.PHONY : src/packs.cpp.o
+
+src/packs.i: src/packs.cpp.i
+.PHONY : src/packs.i
+
+# target to preprocess a source file
+src/packs.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/packs.cpp.i
+.PHONY : src/packs.cpp.i
+
+src/packs.s: src/packs.cpp.s
+.PHONY : src/packs.s
+
+# target to generate assembly for a file
+src/packs.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/packs.cpp.s
+.PHONY : src/packs.cpp.s
+
 src/setups.o: src/setups.cpp.o
 .PHONY : src/setups.o
 
@@ -258,6 +330,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... cmpf"
+	@echo "... src/comp_seq.o"
+	@echo "... src/comp_seq.i"
+	@echo "... src/comp_seq.s"
 	@echo "... src/compiler.o"
 	@echo "... src/compiler.i"
 	@echo "... src/compiler.s"
@@ -270,6 +345,12 @@ help:
 	@echo "... src/nodeworks.o"
 	@echo "... src/nodeworks.i"
 	@echo "... src/nodeworks.s"
+	@echo "... src/pack_proc.o"
+	@echo "... src/pack_proc.i"
+	@echo "... src/pack_proc.s"
+	@echo "... src/packs.o"
+	@echo "... src/packs.i"
+	@echo "... src/packs.s"
 	@echo "... src/setups.o"
 	@echo "... src/setups.i"
 	@echo "... src/setups.s"

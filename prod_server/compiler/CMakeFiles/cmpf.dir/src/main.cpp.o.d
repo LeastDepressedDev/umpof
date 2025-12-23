@@ -298,4 +298,7 @@ CMakeFiles/cmpf.dir/src/main.cpp.o: \
  /home/sirtage/all/projects/umpof/prod_server/compiler/src/compiler.h \
  /usr/include/c++/15.2.1/list /usr/include/c++/15.2.1/bits/stl_list.h \
  /usr/include/c++/15.2.1/bits/list.tcc \
- /home/sirtage/all/projects/umpof/prod_server/compiler/src/nodeworks.h
+ /home/sirtage/all/projects/umpof/prod_server/compiler/src/nodeworks.h \
+ /home/sirtage/all/projects/umpof/prod_server/compiler/src/packs.h \
+ /usr/include/c++/15.2.1/set /usr/include/c++/15.2.1/bits/stl_set.h \
+ /usr/include/c++/15.2.1/bits/stl_multiset.h
