@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/sirtage/all/projects/umpof/prod_server/compiler/cmake_install.cmake",
-		"/home/sirtage/all/projects/umpof/prod_server/compiler/_deps/nlohmann_json-build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
