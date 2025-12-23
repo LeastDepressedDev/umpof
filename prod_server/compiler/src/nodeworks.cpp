@@ -5,6 +5,10 @@ nodeworks::node::node(std::string uuid, std::string class_id) {
     this->class_id = class_id;
 }
 
+void nodeworks::node::bind(pack_proc::ninf* ninf_ptr) {
+    this->ninf_ptr = ninf_ptr;
+    this->bound_ninf = true;
+}
 
 
 
@@ -22,7 +26,7 @@ nodeworks::link::link(nodeworks::LINK_TYPE ltype, std::string name) {
         this->target_nodes = new std::list<nodeworks::node*>();
         break;
     default:
-        std::cerr << "Caught undefined LINK_TYPE... Reporting death :skull:\n";
+        std::cerr << "Caught undefined LINK_TYPE... Reporting death :skull:" << std::endl;
         break;
     }
 }

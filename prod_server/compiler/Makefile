@@ -297,6 +297,54 @@ src/packs.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/packs.cpp.s
 .PHONY : src/packs.cpp.s
 
+src/pl_block.o: src/pl_block.cpp.o
+.PHONY : src/pl_block.o
+
+# target to build an object file
+src/pl_block.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pl_block.cpp.o
+.PHONY : src/pl_block.cpp.o
+
+src/pl_block.i: src/pl_block.cpp.i
+.PHONY : src/pl_block.i
+
+# target to preprocess a source file
+src/pl_block.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pl_block.cpp.i
+.PHONY : src/pl_block.cpp.i
+
+src/pl_block.s: src/pl_block.cpp.s
+.PHONY : src/pl_block.s
+
+# target to generate assembly for a file
+src/pl_block.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pl_block.cpp.s
+.PHONY : src/pl_block.cpp.s
+
+src/pl_gen.o: src/pl_gen.cpp.o
+.PHONY : src/pl_gen.o
+
+# target to build an object file
+src/pl_gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pl_gen.cpp.o
+.PHONY : src/pl_gen.cpp.o
+
+src/pl_gen.i: src/pl_gen.cpp.i
+.PHONY : src/pl_gen.i
+
+# target to preprocess a source file
+src/pl_gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pl_gen.cpp.i
+.PHONY : src/pl_gen.cpp.i
+
+src/pl_gen.s: src/pl_gen.cpp.s
+.PHONY : src/pl_gen.s
+
+# target to generate assembly for a file
+src/pl_gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpf.dir/build.make CMakeFiles/cmpf.dir/src/pl_gen.cpp.s
+.PHONY : src/pl_gen.cpp.s
+
 src/setups.o: src/setups.cpp.o
 .PHONY : src/setups.o
 
@@ -351,6 +399,12 @@ help:
 	@echo "... src/packs.o"
 	@echo "... src/packs.i"
 	@echo "... src/packs.s"
+	@echo "... src/pl_block.o"
+	@echo "... src/pl_block.i"
+	@echo "... src/pl_block.s"
+	@echo "... src/pl_gen.o"
+	@echo "... src/pl_gen.i"
+	@echo "... src/pl_gen.s"
 	@echo "... src/setups.o"
 	@echo "... src/setups.i"
 	@echo "... src/setups.s"

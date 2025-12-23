@@ -6,30 +6,34 @@
 #include <nodeworks.h>
 #include <packs.h>
 #include <set>
+#include <pl_gen.h>
 
 #define COMP_DEBUG
 
+class pl_gen;
 class compiler;
 class seq;
 
 enum BUILD_MODE_MAIN {
-  RT,
-  DOCK
+    B_UDEF = 0x00,
+    RT = 0x01,
+    DOCK = 0x02
 };
 
 enum RT_MODE {
-    LINEAR,
-    SERVICE
+    RT_UDEF = 0x00,
+    LINEAR = 0x01,
+    SERVICE = 0x02
 };
 
 enum DOCK_MODE {
-    dkF
+    D_UDEF = 0x00,
+    dkF = 0x01
 };
 
 class compiler
 {
 private:
-    std::string folder_path; // Doesn't end with '/'
     BUILD_MODE_MAIN build_mode;
     RT_MODE adm_rt_mode;
     DOCK_MODE dmode;
@@ -47,14 +51,20 @@ private:
     pack_proc::pack_proc* packs_info;
 
     size_t last_seq_index;
-    // Why not std::vector? Cuz MORE STABLE UGA-BUGA to use map of index to seq*. Faster search, even if it doesn't mater on small values
-    std::map<size_t, seq*> seqs;
+
+    pl_gen* ppl_c;
 public:
     enum RETURN_STATUS {
         SUCCESS,
         FAILED,
         FAILED_IDK_WHY
     };
+
+    // Why not std::vector? Cuz MORE STABLE UGA-BUGA to use map of index to seq*. Faster search, even if it doesn't mater on small values
+    std::map<size_t, seq*> seqs;
+    std::string folder_path; // Doesn't end with '/'
+
+
     compiler(const char* base_dir, BUILD_MODE_MAIN bm);
 
     void assign_rt_mode(RT_MODE);
@@ -64,10 +74,13 @@ public:
     // Build tasks
     bool insert_vars();
     bool define_parts();
+    bool load_prefs();
     bool import_packs();
     // TODO: Casts place
     bool comp_seq();
     bool layerize(); // It was totaly optional but i thought that this would be great thing to have in such a big project
+    bool gen_ppl();
+    bool compile();
     
     
     compiler::RETURN_STATUS build();
@@ -93,11 +106,11 @@ public:
 
 class seq {
 private:
-    std::set<nodeworks::node*>* nodes;
     compiler* owner;
 
     std::list<std::list<nodeworks::node*>*> __layers;
 public:
+    std::set<nodeworks::node*>* nodes;
     size_t index;
     std::string event;
     bool invalid;

@@ -4,7 +4,7 @@
 std::list<nodeworks::node*> compiler::get_targets() {
     std::list<nodeworks::node*> targets;
     for (std::pair<std::string, nodeworks::node*> pr : this->nodes) {
-        if (this->packs_info->ninfs.at(pr.second->class_id)->flag == "target") {
+        if (pr.second->ninf_ptr->flag == "target") {
             targets.push_back(pr.second);
         }
     }
@@ -39,10 +39,9 @@ bool seq::fin() {
     // Process events
     pack_proc::ninf* evt = nullptr;
     for (nodeworks::node* nd : *this->nodes) { // Doing full check cuz it's the same asympthotic + more validation scope
-        pack_proc::ninf* tmp = this->owner->get_pack_info()->ninfs.at(nd->class_id);
-        if (tmp->is_event) {
+        if (nd->ninf_ptr->is_event) {
             if (evt != nullptr) return this->invalidate("More then two event nodes in sequence detected!");
-            else evt = tmp; 
+            else evt = nd->ninf_ptr; 
         }
     }
 

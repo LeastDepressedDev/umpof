@@ -62,11 +62,13 @@ namespace pack_proc {
         EXEC_TYPE exec_type;
         std::string id;
         std::map<std::string, std::map<std::string, std::string>*> links;
+        std::list<std::string> pref_names;
         std::string flag = "";
         bool is_event = false;
         std::string event;
         
         ninf(json, pack*);
         std::string get_exec_path();
+        std::string rel_path();
     };
 }

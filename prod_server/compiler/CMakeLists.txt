@@ -31,6 +31,8 @@ add_executable(
   src/pack_proc.cpp
   src/packs.cpp
   src/comp_seq.cpp
+  src/pl_gen.cpp
+  src/pl_block.cpp
 )
 
 target_link_libraries(cmpf PRIVATE nlohmann_json::nlohmann_json)

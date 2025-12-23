@@ -1,7 +1,7 @@
 #include <compiler.h>
 
 void compiler::start_log() {
-    this->logfile_ptr = fopen(this->folder_path.append("/build.log").c_str(), "a");
+    this->logfile_ptr = fopen((this->folder_path + std::string("/build.log")).c_str(), "a");
     this->log("Starting build log...");
 }
 

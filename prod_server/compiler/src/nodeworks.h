@@ -3,6 +3,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <packs.h>
 
 namespace nodeworks
 {
@@ -18,13 +19,21 @@ namespace nodeworks
     private:
 
     public:
+        size_t fin_index;
+
+        bool bound_ninf = false;
+        pack_proc::ninf* ninf_ptr;
+
+
         std::string uuid;
         std::string class_id;
         size_t execution_layer = 0;
         
         std::map<std::string, link*> links;
+        std::map<std::string, std::string> prefs;
 
         node(std::string uuid, std::string class_id);
+        void bind(pack_proc::ninf*);
     };
 
     class link {

@@ -166,6 +166,9 @@ bool compiler::define_parts() {
                 node_to = this->nodes.at(segments[2]);
                 nodeworks::link* in_link = new nodeworks::link(nodeworks::LINK_TYPE::IN, segments[3]);
 
+                out_link->link_name = std::string(segments[1]);
+                in_link->link_name = std::string(segments[3]);
+
                 out_link->get_target_nodes()->push_back(this->nodes.at(segments[2]));
                 out_link->get_targets()->push_back(in_link);
                 in_link->set_source(out_link)->set_source(this->nodes.at(segments[0]));
@@ -241,6 +244,33 @@ bool compiler::import_packs() {
     return false;
 }
 
+/*
+*
+*   Load prefs + Link ninfs
+*
+*/
+bool compiler::load_prefs() {
+    this->log("Including preferences... + linking");
+
+    for (std::pair<std::string, nodeworks::node*> pr : this->nodes) {
+        pr.second->bind(this->packs_info->ninfs.at(pr.second->class_id));
+#ifdef COMP_DEBUG
+        this->bef("Linking ninf(")->bef(pr.second->ninf_ptr->id)->bef(") to ")->bef(pr.first)->bef("(")->bef(pr.second->class_id)->log(")");
+#endif
+        
+        for (std::string pref : pr.second->ninf_ptr->pref_names) {
+            std::string rq_name = pr.first+"."+pref;
+            char* val = getenv(rq_name.c_str());
+#ifdef COMP_DEBUG
+            this->bef("Got environmental var(")->bef(rq_name)->bef(") = ")->log(val);
+#endif
+            pr.second->prefs.insert({pref, std::string(val)});
+        }
+    }
+
+    return false;
+}
+
 void recursive_proc_node(std::set<nodeworks::node*>* list, nodeworks::node* node) {
     list->insert(node);
     for (std::pair<std::string, nodeworks::link*> pr : node->links) {
@@ -252,7 +282,7 @@ void recursive_proc_node(std::set<nodeworks::node*>* list, nodeworks::node* node
 
 /* 
 *
-*   Compile seqenses
+*   Compile sequences
 *
 */
 bool compiler::comp_seq() {
@@ -304,11 +334,39 @@ bool compiler::comp_seq() {
     return false;
 }
 
+/* 
+*
+*   Layerize sequences
+*
+*/
 bool compiler::layerize() {
     this->log("Layerizing sequences...");
     for (std::pair<size_t, seq*> pr : this->seqs) {
         if (!pr.second->layerize()) this->handle_crash("Unknown crash on layerization. Idk what happend");
     }
+    return false;
+}
+
+/* 
+*
+*   Generatate pipeline file
+*
+*/
+bool compiler::gen_ppl() {
+    this->bef("Generating ")->bef(PL_FILE_NAME)->log(" file...");
+    this->ppl_c = new pl_gen(this);
+    this->ppl_c->setup();
+    return false;
+}
+
+/* 
+*
+*   FINAL compilation step
+*
+*/
+bool compiler::compile() {
+    // TODO: Add a lot of validation before final compilation
+    this->ppl_c->dump();
     return false;
 }
 
@@ -338,6 +396,10 @@ compiler::RETURN_STATUS compiler::build() {
     if (this->import_packs()) return FAILED;
     this->log("[NO WAY] Packs imported!")->bef("Took: ")->log(dif_s(sub))->nl(2);
 
+    sub = grab_t;
+    if (this->load_prefs()) return FAILED;
+    this->log("[GYAAAT] Prefs loaded!")->bef("Took: ")->log(dif_s(sub))->nl(2);
+
     // Cast
 
     sub = grab_t;
@@ -348,7 +410,13 @@ compiler::RETURN_STATUS compiler::build() {
     if (this->layerize()) return FAILED;
     this->log("[ULTRAKILL] Layerization complete!")->bef("Took: ")->log(dif_s(sub))->nl(2);
 
-    
+    sub = grab_t;
+    if (this->gen_ppl()) return FAILED;
+    this->log("[PREPARE THYSELF] Pipeline file generated...")->bef("Took: ")->log(dif_s(sub))->nl(2);
+
+    sub = grab_t;
+    if (this->compile()) return FAILED;
+    this->log("[BE GONE] ")->bef("Took: ")->log(dif_s(sub))->nl(2);
 
 
     this->bef("Build finished! (took ")->bef(dif_s(start))->log(")");

@@ -46,8 +46,18 @@ pack_proc::ninf::ninf(json def, pack* src) {
         json sub = format_block.at(i);
         this->links.at(sub["block"])->insert({std::string(sub["unid"]), std::string(sub["type"])});
     }
+    if (def.contains("prefs")) {
+        json prefs_block = def["prefs"];
+        for (size_t i = 0; i < prefs_block.size(); i++) {
+            this->pref_names.push_back(prefs_block.at(i)["id"]);
+        }
+    }
 }
 
 std::string pack_proc::ninf::get_exec_path() {
     return this->source->path + "/" + this->exec_path;
+}
+
+std::string pack_proc::ninf::rel_path() {
+    return this->exec_path.length() > 0 ? this->source->id + "/" + this->exec_path : "";
 }
