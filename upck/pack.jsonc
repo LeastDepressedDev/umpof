@@ -49,7 +49,7 @@
     // Structure of events is the same as nodes, but events can't have input links.
         {
             "event": "callback", // Unique parameter of event. Defines the name event corresponds
-            "flag": "flag", // Optional node flag, e. g. target
+            "flag": "flag", // Optional flag, service used for SERVICE builds
             "id": "Node id", // Node register id
             "name": "Test event 1", //Node display name
             "group": "idk", //Optional

@@ -3,6 +3,7 @@
 #include <set>
 #include <iostream>
 #include <chrono>
+#include <setups.h>
 
 #include <macro_defs.h>
 
@@ -367,6 +368,17 @@ bool compiler::gen_ppl() {
 bool compiler::compile() {
     // TODO: Add a lot of validation before final compilation
     this->ppl_c->dump();
+
+    for (auto sq : this->seqs) {
+        for (nodeworks::node* nd : *sq.second->nodes) {
+             if (nd->ninf_ptr->exec_type == pack_proc::ninf::EXEC_TYPE::DUMMY) continue;
+#ifdef COMP_DEBUG
+            this->bef(nd->ninf_ptr->get_exec_path())->bef(" ")->log((this->folder_path + "/" + nd->ninf_ptr->rel_path()).c_str());
+            this->log(std::filesystem::path((this->folder_path + "/" + nd->ninf_ptr->rel_path())).parent_path().c_str());
+#endif
+            copy_file(nd->ninf_ptr->get_exec_path().c_str(), (this->folder_path + "/" + nd->ninf_ptr->rel_path()).c_str());
+        }
+    }
     return false;
 }
 
@@ -381,6 +393,7 @@ void compiler::handle_crash(std::string msg) {
 }
 
 compiler::RETURN_STATUS compiler::build() {
+    //std::filesystem::create_directories((this->folder_path + "/sus/sis/sos").c_str());
     this->start_log();
     auto start = grab_t;
 
