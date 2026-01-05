@@ -11,6 +11,10 @@ size_t pl_gen::next_node_index() {
     return this->node_indexation++;
 }
 
+u_int16_t pl_gen::next_lm() {
+    return this->lmused++;
+}
+
 void pl_gen::add_dull(u_int16_t sz, u_int16_t byte) {
     this->leg.push_back(pl_block::pl_block(new pl_block::dull(sz, byte), pl_block::TYPE::DULL));
 }
@@ -28,6 +32,9 @@ void pl_gen::write(pl_block::pl_block block) {
     case pl_block::TYPE::SEQUENCE:
         ((pl_block::b_seq*) block.ptr)->write(this->f_ptr);
     break;
+    case pl_block::TYPE::USING:
+        ((pl_block::using_exec*) block.ptr)->write(this->f_ptr);
+    break;
     }
     fwrite(&c4_0, sizeof(u_int32_t), 1, this->f_ptr);
 }
@@ -37,7 +44,13 @@ void pl_gen::setup() {
         auto vec_f = pr.second->layers();
         for (auto sub_vec : vec_f) {
             for (nodeworks::node* nd : sub_vec) {
-                pl_block::node* node = new pl_block::node(nd, this);
+                std::string pth = nd->ninf_ptr->rel_path();
+                if (this->using_mapper.count(pth) == 0) {
+                    pl_block::using_exec* use = new pl_block::using_exec(nd, this);
+                    this->leg.push_back(pl_block::pl_block((void*) use, pl_block::TYPE::USING));
+                }
+
+                pl_block::node* node = new pl_block::node(nd, this, this->using_mapper.at(pth));
                 this->leg.push_back(pl_block::pl_block((void*) node, pl_block::TYPE::NODE));
             }
         }

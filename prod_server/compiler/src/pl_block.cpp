@@ -1,13 +1,31 @@
 #include <pl_gen.h>
 
+u_int8_t se[2] = {0xff, 0x00};
+
 pl_block::pl_block::pl_block(void* ptr, TYPE type) {
     this->ptr = ptr;
     this->type = type;
 }
 
-pl_block::node::node(nodeworks::node* node, pl_gen* owner) {
+pl_block::node::node(nodeworks::node* node, pl_gen* owner, u_int16_t regged) {
     this->node_ptr = node;
     this->node_ptr->fin_index = owner->next_node_index();
+    this->regged_exec = regged;
+}
+
+pl_block::using_exec::using_exec(nodeworks::node* node, pl_gen* pl) {
+    this->node = node;
+    this->id = pl->next_lm();
+    this->pth = node->ninf_ptr->rel_path();
+    pl->using_mapper.insert({this->pth, id});
+}
+
+void pl_block::using_exec::write(FILE* f_ptr) {
+    fwrite(&this->node->ninf_ptr->exec_type, 1, 1, f_ptr);
+    fwrite(&this->id, sizeof(u_int16_t), 1, f_ptr);
+    u_int32_t size = (u_int32_t) pth.length();
+    fwrite(&size, sizeof(u_int32_t), 1, f_ptr);
+    if (size > 0) fwrite(pth.c_str(), sizeof(char), size, f_ptr);
 }
 
 pl_block::dull::dull(u_int16_t size, u_int8_t byte) {
@@ -21,14 +39,14 @@ void pl_block::dull::write(FILE* f_ptr) {
     }
 }
 
+
+
 void pl_block::node::write(FILE* f_ptr) {
     this->f_ptr = f_ptr;
     fwrite(&this->node_ptr->fin_index, sizeof(u_int32_t), 1, f_ptr);
-    std::string pth = this->node_ptr->ninf_ptr->rel_path();
-    u_int32_t size = (u_int32_t) pth.length();
-    fwrite(&size, sizeof(u_int32_t), 1, f_ptr);
-    if (size > 0) fwrite(pth.c_str(), sizeof(char), size, f_ptr);
-    size = (u_int32_t) this->node_ptr->prefs.size();
+    fwrite(&this->regged_exec, sizeof(u_int16_t), 1, f_ptr);
+    fwrite(se+1, sizeof(u_int8_t), 1, f_ptr);
+    u_int32_t size = (u_int32_t) this->node_ptr->prefs.size();
     fwrite(&size, sizeof(u_int32_t), 1, f_ptr);
     if (size>0) {
         for (std::pair<std::string, std::string> pr : this->node_ptr->prefs) {
@@ -47,7 +65,6 @@ void pl_block::node::write(FILE* f_ptr) {
 }
 
 void pl_block::node::write_pref(std::string key, std::string val) {
-    u_int8_t se[2] = {0xff, 0x00};
     fwrite(se, sizeof(u_int8_t), 1, this->f_ptr);
     u_int32_t size = (u_int32_t) key.length();
     fwrite(&size, sizeof(u_int32_t), 1, this->f_ptr);
@@ -63,7 +80,6 @@ void pl_block::node::write_pref(std::pair<std::string, std::string> pr) {
 }
 
 void pl_block::node::write_link(nodeworks::link* lk) {
-    u_int8_t se[2] = {0xff, 0x00};
     fwrite(se, sizeof(u_int8_t), 1, this->f_ptr);
     fwrite(&lk->get_source_node()->fin_index, sizeof(u_int32_t), 1, this->f_ptr);
     u_int32_t size = (u_int32_t) lk->link_name.size();
@@ -97,7 +113,6 @@ void pl_block::b_seq::write(FILE* f_ptr) {
 }
 
 void pl_block::b_seq::write_layer(std::vector<nodeworks::node*> vec) {
-    u_int8_t se[2] = {0xff, 0x00};
     fwrite(se, sizeof(u_int8_t), 1, f_ptr);
     u_int32_t size = (u_int32_t) vec.size();
     fwrite(&size, sizeof(u_int32_t), 1, f_ptr);

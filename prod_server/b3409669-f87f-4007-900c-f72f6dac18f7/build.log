@@ -1,0 +1,122 @@
+Starting build log...
+Getting
+Imported
+MAIN_LINE
+#uprefs
+using defpack
+#nodes
+b773bf85-8db7-4922-b63b-7276df16a279;defpack:dummy_target
+d05dad27-650b-4efc-a091-fb79247098b5;defpack:int_emmiter
+fbe697bb-1eb5-4869-a6f3-24aa9fc70413;defpack:dummy_target
+11064e6d-e197-4080-a8b9-636e9823ece5;defpack:dummy_target
+fa9307df-c957-403e-a1c7-f6a1429cd10d;defpack:float_emmiter
+#links
+d05dad27-650b-4efc-a091-fb79247098b5.a;b773bf85-8db7-4922-b63b-7276df16a279.a
+d05dad27-650b-4efc-a091-fb79247098b5.a;fbe697bb-1eb5-4869-a6f3-24aa9fc70413.a
+fa9307df-c957-403e-a1c7-f6a1429cd10d.a;11064e6d-e197-4080-a8b9-636e9823ece5.a
+#starters
+d05dad27-650b-4efc-a091-fb79247098b5
+fa9307df-c957-403e-a1c7-f6a1429cd10d
+
+PREF_SZ = 2
+[COOL] Vars successfuly defined!
+Took: 0.012123ms
+
+
+Defining parts...
+State changed: uprefs
+Processing line with STATE::UPREFS <- using defpack
+Found pack: defpack
+State changed: nodes
+Added (defpack:dummy_target) node: b773bf85-8db7-4922-b63b-7276df16a279
+Added (defpack:int_emmiter) node: d05dad27-650b-4efc-a091-fb79247098b5
+Added (defpack:dummy_target) node: fbe697bb-1eb5-4869-a6f3-24aa9fc70413
+Added (defpack:dummy_target) node: 11064e6d-e197-4080-a8b9-636e9823ece5
+Added (defpack:float_emmiter) node: fa9307df-c957-403e-a1c7-f6a1429cd10d
+State changed: links
+Added OUT link: a
+Added IN link: a
+Added IN link: a
+Added OUT link: a
+Added IN link: a
+State changed: starters
+Detected starter: d05dad27-650b-4efc-a091-fb79247098b5
+Detected starter: fa9307df-c957-403e-a1c7-f6a1429cd10d
+[YAAAY] All PL parts defined!
+Took: 0.267189ms
+
+
+Importing packs...
+
+
+
+Found some nodes:
+defpack:dummy_target -> DUMMY
+defpack:float_emmiter -> /home/sirtage/all/projects/umpof/tpacks/defpack/emits/emit_float.py
+defpack:int_emmiter -> /home/sirtage/all/projects/umpof/tpacks/defpack/emits/emit_int.py
+defpack:text_emmiter -> /home/sirtage/all/projects/umpof/tpacks/defpack/emits/emit_text.py
+[NO WAY] Packs imported!
+Took: 1.036322ms
+
+
+Including preferences... + linking
+Linking ninf(dummy_target) to 11064e6d-e197-4080-a8b9-636e9823ece5(defpack:dummy_target)
+Linking ninf(dummy_target) to b773bf85-8db7-4922-b63b-7276df16a279(defpack:dummy_target)
+Linking ninf(int_emmiter) to d05dad27-650b-4efc-a091-fb79247098b5(defpack:int_emmiter)
+Got environmental var(d05dad27-650b-4efc-a091-fb79247098b5.ival) = 0
+Linking ninf(float_emmiter) to fa9307df-c957-403e-a1c7-f6a1429cd10d(defpack:float_emmiter)
+Got environmental var(fa9307df-c957-403e-a1c7-f6a1429cd10d.ival) = 0
+Linking ninf(dummy_target) to fbe697bb-1eb5-4869-a6f3-24aa9fc70413(defpack:dummy_target)
+[GYAAAT] Prefs loaded!
+Took: 0.013123ms
+
+
+Compiling sequences
+Found starters 3 starters: 
+11064e6d-e197-4080-a8b9-636e9823ece5
+b773bf85-8db7-4922-b63b-7276df16a279
+fbe697bb-1eb5-4869-a6f3-24aa9fc70413
+Creating (0) sequence. Addres (me): &101878397194656
+Creating (1) sequence. Addres (me): &101878397201120
+Merging &101878397181088 to sequence: &101878397201616
+Sequence (0) keeps __nat_start (default) event.
+Sequence (1) keeps __nat_start (default) event.
+[SSadistic] Sequnces compiled!
+Took: 0.021875ms
+
+
+Layerizing sequences...
+Layerizing seq(0): &101878397199488
+Processing n=0 layer of layerization...
+Got a layer: size=1
+Processing n=1 layer of layerization...
+Got a layer: size=1
+Finished layerizing this section in 0.006561ms.
+
+Layerizing seq(1): &101878397201616
+Processing n=0 layer of layerization...
+Got a layer: size=1
+Processing n=1 layer of layerization...
+Got a layer: size=2
+Finished layerizing this section in 0.005538ms.
+
+[ULTRAKILL] Layerization complete!
+Took: 0.016247ms
+
+
+Generating .ppl file...
+[PREPARE THYSELF] Pipeline file generated...
+Took: 0.025749ms
+
+
+b3409669-f87f-4007-900c-f72f6dac18f7/.ppl
+/home/sirtage/all/projects/umpof/tpacks/defpack/emits/emit_float.py b3409669-f87f-4007-900c-f72f6dac18f7/defpack/emits/emit_float.py
+b3409669-f87f-4007-900c-f72f6dac18f7/defpack/emits
+/home/sirtage/all/projects/umpof/tpacks/defpack/emits/emit_int.py b3409669-f87f-4007-900c-f72f6dac18f7/defpack/emits/emit_int.py
+b3409669-f87f-4007-900c-f72f6dac18f7/defpack/emits
+[BE GONE] 
+Took: 0.299114ms
+
+
+Build finished! (took 1.718492ms)
+End of log...

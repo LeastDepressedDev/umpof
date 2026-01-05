@@ -55,8 +55,8 @@ namespace pack_proc {
         std::string exec_path = "";
     public:
         enum EXEC_TYPE {
-            DUMMY,
-            PYTHON
+            DUMMY = 0x00,
+            PYTHON = 0x01
         };
         pack* source;
         EXEC_TYPE exec_type;

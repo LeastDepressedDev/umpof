@@ -13,7 +13,7 @@
             "exec": "sum.py", //Path to the executor,
             "format": [ //Format decorator for node
                 { //Example of header
-                    "block": "рeader",
+                    "block": "header",
                     "text": "Test header"
                 },
                 { //Example of inputs

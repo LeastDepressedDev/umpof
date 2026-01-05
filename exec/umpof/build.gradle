@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'me.ldd.umpof'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.json:json:20250517'
+    implementation 'redis.clients:jedis:2.8.0'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+test {
+    useJUnitPlatform()
+}

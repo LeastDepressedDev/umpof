@@ -12,8 +12,9 @@ namespace pl_block {
 
     enum TYPE {
         DULL = 0x00,
-        NODE = 0x01,
-        SEQUENCE = 0x02
+        USING = 0x01,
+        NODE = 0x02,
+        SEQUENCE = 0x03
     };
 
     /**
@@ -25,6 +26,22 @@ namespace pl_block {
         u_int16_t size;
         u_int8_t byte;
         dull(u_int16_t, u_int8_t);
+        void write(FILE* fptr);
+    };
+
+    /**
+     * 1 byte                      exec_type // Types are indexed in packs.h #kostily production
+     * 2 bytes                   "sub id"
+     * 4 bytes -> n           length
+     * n bytes                   string-path
+     */
+    class using_exec { // Defining executables that can be used
+    private:
+        u_int16_t id;
+    public:
+        nodeworks::node* node;
+        std::string pth;
+        using_exec(nodeworks::node*, pl_gen*);
         void write(FILE* fptr);
     };
 
@@ -46,9 +63,10 @@ namespace pl_block {
      * 1 byte                      0x00
      * -struct
      * 
+     * 
+     * 
      * 4 bytes                    index
-     * 4 bytes -> n1           exec-path length
-     * n1 bytes                   string
+     * 2 bytes                    regged_exec
      * 1 byte                       0x00
      * 4 bytes -> n2          pref-count
      * n2 pref                     prefs
@@ -59,7 +77,8 @@ namespace pl_block {
     public:
         FILE* f_ptr;
         nodeworks::node* node_ptr;
-        node(nodeworks::node*, pl_gen*);
+        u_int16_t regged_exec;
+        node(nodeworks::node*, pl_gen*, u_int16_t regged);
         void write(FILE* fptr);
         void write_pref(std::pair<std::string, std::string>);
         void write_pref(std::string key, std::string val);
@@ -109,10 +128,12 @@ class pl_gen
 private:
     FILE* f_ptr = nullptr;
     std::list<pl_block::pl_block> leg;
+    u_int16_t lmused = 0;
 
     compiler* owner;
     size_t node_indexation = 0;
 public:
+    std::map<std::string, u_int16_t> using_mapper;
     pl_gen(compiler*);
 
     void setup();
@@ -120,5 +141,6 @@ public:
     void dump();
     
     size_t next_node_index();
+    u_int16_t next_lm();
     void add_dull(u_int16_t size, u_int16_t);
 };
