@@ -9,6 +9,7 @@
 #include <pl_gen.h>
 
 #define COMP_DEBUG
+#define TLESS_LOG
 
 class pl_gen;
 class compiler;
@@ -54,6 +55,11 @@ private:
 
     pl_gen* ppl_c;
 public:
+#ifdef TLESS_LOG
+    std::string _tless_log_pth;
+    void _tless_log_head();
+    void _tless_log_tail();
+#endif
     enum RETURN_STATUS {
         SUCCESS,
         FAILED,
@@ -76,7 +82,7 @@ public:
     bool define_parts();
     bool load_prefs();
     bool import_packs();
-    // TODO: Casts place
+    bool cast();
     bool comp_seq();
     bool layerize(); // It was totaly optional but i thought that this would be great thing to have in such a big project
     bool gen_ppl();

@@ -79,6 +79,43 @@
                 }
             ]
         },
+        {
+            "id": "int_op",
+            "name": "Integer arithmetics",
+            "group": "bmath",
+            "width": 140,
+            "description": "Provides basic arithmetical operations on integers",
+            "exec-type": "python",
+            "exec": "emits/ints_op.py",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "Int 1",
+                    "unid": "a",
+                    "type": "int"
+                },
+               {
+                    "block": "input",
+                    "text": "Int 2",
+                    "unid": "b",
+                    "type": "int"
+                },
+                {
+                    "block": "output",
+                    "text": "Result",
+                    "unid": "r",
+                    "type": "int"
+                }
+            ],
+            "prefs": [
+                {
+                    "id": "opcode",
+                    "name": "Oparation",
+                    "type": "text",
+                    "val": "+"
+                }
+            ]
+        },
 
 
 
@@ -103,6 +140,18 @@
                     "type": "*"
                 }
             ]
+        }
+    ],
+    "casts": [
+        {
+            "from": "int", 
+            "to": "text", 
+            "conv": "casts/itt.py" 
+        },
+        {
+            "from": "text", 
+            "to": "int", 
+            "conv": "casts/tti.py" 
         }
     ],
     "types": [

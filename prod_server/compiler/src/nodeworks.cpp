@@ -5,9 +5,27 @@ nodeworks::node::node(std::string uuid, std::string class_id) {
     this->class_id = class_id;
 }
 
-void nodeworks::node::bind(pack_proc::ninf* ninf_ptr) {
+std::pair<bool, std::string> nodeworks::node::bind(pack_proc::ninf* ninf_ptr) {
     this->ninf_ptr = ninf_ptr;
+    for (auto pr : this->links) {
+        std::string* rq = nullptr;
+        switch (pr.second->type)
+        {
+        case nodeworks::LINK_TYPE::IN:
+            rq = new std::string("input");
+        break;
+        case nodeworks::LINK_TYPE::OUT:
+            rq = new std::string("output");
+        default:
+            break;
+        }
+        if (rq == nullptr) return {false, "Incorrect or unsupported node type on linking... Too bad nerd (c)" + pr.first};
+        auto mpm = this->ninf_ptr->links.at(*rq);
+        if (mpm->count(pr.first) == 0) return {false, "Linking link(xd) not found (c)" + pr.first};
+        pr.second->data_type = mpm->at(pr.first);
+    }
     this->bound_ninf = true;
+    return {true, ""};
 }
 
 

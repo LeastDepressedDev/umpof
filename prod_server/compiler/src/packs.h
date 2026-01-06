@@ -20,7 +20,7 @@ namespace pack_proc {
         
         std::list<pack*> __tmp_packs;
         std::map<std::string, pack*> packs;
-
+        std::map<std::string, std::map<std::string, std::string>*> casts;
     public:
         std::map<std::string, ninf*> ninfs;
         std::string local_log;
@@ -32,6 +32,7 @@ namespace pack_proc {
         pack_proc* log(std::string);
         pack_proc* bef(std::string);
 
+        std::string* cast_check(std::string, std::string);
 
         std::map<std::string, pack*> get_packs();
     };

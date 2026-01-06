@@ -33,7 +33,7 @@ namespace nodeworks
         std::map<std::string, std::string> prefs;
 
         node(std::string uuid, std::string class_id);
-        void bind(pack_proc::ninf*);
+        std::pair<bool, std::string> bind(pack_proc::ninf*);
     };
 
     class link {

@@ -146,6 +146,14 @@ bool compiler::define_parts() {
                 }
                 segments.push_back(sub);
 
+#ifdef COMP_DEBUG
+                this->bef("Processing:   ");
+                for (std::string l : segments) {
+                    this->bef(l)->bef(" - ");
+                }
+                this->log(";;");
+#endif
+
                 nodeworks::node* node_from;
                 nodeworks::node* node_to;
 
@@ -154,10 +162,18 @@ bool compiler::define_parts() {
                 if (this->nodes.count(segments[0]) > 0) {
                     node_from = this->nodes.at(segments[0]);
                     if (node_from->links.count(segments[1]) > 0) {
-                        out_link = node_from->links.at(segments[1]);
+                        out_link = node_from->links.at(segments[1]); // NEEDED TODO: rn this works only with non repeating in and out link names. Better can
                         add_out = false;
+                        if (out_link->type != nodeworks::LINK_TYPE::OUT) 
+                            this->handle_crash("Critical situation happened on STATE::LINKS line processing: Called not out node from out node section");
+#ifdef COMP_DEBUG
+                        this->bef("Modif: ")->log(std::to_string((unsigned long) out_link));
+#endif
                     } else {
                         out_link = new nodeworks::link(nodeworks::LINK_TYPE::OUT, segments[1]);
+#ifdef COMP_DEBUG
+                        this->bef("New out link: ")->log(std::to_string((unsigned long) out_link));
+#endif
                     }
                 } else {
                     this->handle_crash("Critical situation happened on STATE::LINKS line processing: Node doesn't exist");
@@ -170,8 +186,11 @@ bool compiler::define_parts() {
                 out_link->link_name = std::string(segments[1]);
                 in_link->link_name = std::string(segments[3]);
 
+                if (out_link->get_target_nodes() == nullptr) this->handle_crash("Got nullptr as target list: nodes");
                 out_link->get_target_nodes()->push_back(this->nodes.at(segments[2]));
+                if (out_link->get_targets() == nullptr) this->handle_crash("Got nullptr as target list: links");
                 out_link->get_targets()->push_back(in_link);
+
                 in_link->set_source(out_link)->set_source(this->nodes.at(segments[0]));
 
                 if (add_out) {
@@ -254,7 +273,8 @@ bool compiler::load_prefs() {
     this->log("Including preferences... + linking");
 
     for (std::pair<std::string, nodeworks::node*> pr : this->nodes) {
-        pr.second->bind(this->packs_info->ninfs.at(pr.second->class_id));
+        auto res = pr.second->bind(this->packs_info->ninfs.at(pr.second->class_id));
+        if (!res.first) this->handle_crash(res.second);
 #ifdef COMP_DEBUG
         this->bef("Linking ninf(")->bef(pr.second->ninf_ptr->id)->bef(") to ")->bef(pr.first)->bef("(")->bef(pr.second->class_id)->log(")");
 #endif
@@ -266,6 +286,54 @@ bool compiler::load_prefs() {
             this->bef("Got environmental var(")->bef(rq_name)->bef(") = ")->log(val);
 #endif
             pr.second->prefs.insert({pref, std::string(val)});
+        }
+    }
+
+    return false;
+}
+
+/* 
+*
+*   Casting
+*
+*/
+bool compiler::cast() {
+    this->log("Handling casting...");
+    for (auto pr : this->nodes) {
+        for (auto lkpr : pr.second->links) {
+            nodeworks::link* lk = lkpr.second;
+            if (lk->type == nodeworks::LINK_TYPE::OUT) {
+                std::map<std::string, std::pair<std::string*, std::list<nodeworks::link*>*>> mp;
+                
+                for (nodeworks::link* sub : *lk->get_targets()) {
+                    if (sub->data_type == "*") continue;
+                    this->bef(lk->data_type)->bef(" - - - ")->log(sub->data_type); // Data type is not defined TODO: EMG PROCESSING DO IT LOL this is recent one
+                    if (lk->data_type != sub->data_type) {
+#ifdef COMP_DEBUG
+                        this->bef("Casting required between links -> (")->bef(lk->link_name)->bef(", ")->bef(sub->link_name)->log(")");
+#endif
+                        std::string* cast_check = this->packs_info->cast_check(lk->data_type, sub->data_type);
+#ifdef COMP_DEBUG
+                        this->log(cast_check == nullptr ? "Can not be done!!! ---" : "Can be done!!! +++");
+#endif
+                        if (cast_check != nullptr) {
+                            if (mp.count(sub->data_type) == 0) mp.insert({sub->data_type, {cast_check, new std::list<nodeworks::link*>()}});
+                            mp.at(sub->data_type).second->push_back(sub);
+                        }
+                    }
+                }
+
+#ifdef COMP_DEBUG
+                this->bef("Assigned (")->bef(std::to_string(mp.size()))->log(") conversion groups:");
+                for (auto pr : mp) {
+                    this->bef(" - ")->bef(pr.first)->bef(":    ");
+                    for (nodeworks::link* olk : *pr.second.second) {
+                        this->bef(olk->link_name)->bef(" ");
+                    }
+                    this->bef(" -- ")->log(pr.second.first->c_str());
+                }
+#endif
+            }
         }
     }
 
@@ -292,7 +360,7 @@ bool compiler::comp_seq() {
     
 #ifdef COMP_DEBUG
     std::list<nodeworks::node*> targets = this->get_targets();
-    this->bef("Found starters ")->bef(std::to_string(targets.size()))->log(" starters: ");
+    this->bef("Found ")->bef(std::to_string(targets.size()))->log(" targets: ");
     for (nodeworks::node* target : targets) {
         this->log(target->uuid);
     }
@@ -367,23 +435,35 @@ bool compiler::gen_ppl() {
 */
 bool compiler::compile() {
     // TODO: Add a lot of validation before final compilation
+    this->log("Moving files... Finishing compilation...");
     this->ppl_c->dump();
+
+    std::set<std::string> moved;
 
     for (auto sq : this->seqs) {
         for (nodeworks::node* nd : *sq.second->nodes) {
-             if (nd->ninf_ptr->exec_type == pack_proc::ninf::EXEC_TYPE::DUMMY) continue;
+            if (nd->ninf_ptr->exec_type == pack_proc::ninf::EXEC_TYPE::DUMMY) continue;
+            std::string fpth = nd->ninf_ptr->get_exec_path();
+            if (moved.count(fpth) != 0) continue;
 #ifdef COMP_DEBUG
-            this->bef(nd->ninf_ptr->get_exec_path())->bef(" ")->log((this->folder_path + "/" + nd->ninf_ptr->rel_path()).c_str());
+            this->bef(fpth)->bef(" ")->log((this->folder_path + "/" + nd->ninf_ptr->rel_path()).c_str());
             this->log(std::filesystem::path((this->folder_path + "/" + nd->ninf_ptr->rel_path())).parent_path().c_str());
 #endif
-            copy_file(nd->ninf_ptr->get_exec_path().c_str(), (this->folder_path + "/" + nd->ninf_ptr->rel_path()).c_str());
+            copy_file(fpth.c_str(), (this->folder_path + "/" + nd->ninf_ptr->rel_path()).c_str());
+            moved.insert(fpth);
+            this->log("Gotcha!");
         }
     }
     return false;
 }
 
 void compiler::handle_crash(const char* msg) {
-    if (this->logfile_ptr != nullptr) this->log("\nCrash!!! :skull:")->log(msg)->end_log();
+
+    if (this->logfile_ptr != nullptr) fclose(this->logfile_ptr);
+    #ifndef TLESS_LOG
+    this->start_log();
+    #endif
+    this->log("\nCrash!!! :skull:")->log(msg)->end_log();
     std::cerr << msg << std::endl;
     exit(1);
 }
@@ -402,18 +482,20 @@ compiler::RETURN_STATUS compiler::build() {
     this->log("[COOL] Vars successfuly defined!")->bef("Took: ")->log(dif_s(sub))->nl(2);
 
     sub = grab_t;
-    if (this->define_parts()) return FAILED;
+    if (this->define_parts()) return FAILED; 
     this->log("[YAAAY] All PL parts defined!")->bef("Took: ")->log(dif_s(sub))->nl(2);
 
     sub = grab_t;
     if (this->import_packs()) return FAILED;
     this->log("[NO WAY] Packs imported!")->bef("Took: ")->log(dif_s(sub))->nl(2);
-
+    
     sub = grab_t;
     if (this->load_prefs()) return FAILED;
     this->log("[GYAAAT] Prefs loaded!")->bef("Took: ")->log(dif_s(sub))->nl(2);
 
-    // Cast
+    sub = grab_t;
+    if (this->cast()) return FAILED;
+    this->log("[Sheeesh] Casting handled!")->bef("Took: ")->log(dif_s(sub))->nl(2);
 
     sub = grab_t;
     if (this->comp_seq()) return FAILED;
@@ -430,6 +512,11 @@ compiler::RETURN_STATUS compiler::build() {
     sub = grab_t;
     if (this->compile()) return FAILED;
     this->log("[BE GONE] ")->bef("Took: ")->log(dif_s(sub))->nl(2);
+
+    //Place finish mark
+    FILE* fin_mark_fptr = fopen((this->folder_path + "/.rd").c_str(), "w");
+    fprintf(fin_mark_fptr, "%s", this->folder_path.c_str());
+    fclose(fin_mark_fptr);
 
 
     this->bef("Build finished! (took ")->bef(dif_s(start))->log(")");

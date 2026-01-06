@@ -26,6 +26,14 @@ void pack_proc::pack_proc::proc_dir(std::string path) {
     }
 }
 
+std::string* pack_proc::pack_proc::cast_check(std::string from, std::string to) {
+    if (this->casts.count(from) != 0) {
+        auto sub = this->casts.at(from);
+        return sub->count(to) != 0 ? &sub->at(to) : nullptr;
+    }
+    return nullptr;
+}
+
 pack_proc::pack_proc::pack_proc(std::list<std::string> list) {
     this->packs_path = getenv("PACKS_DIR");
     this->using_packs = list;
@@ -69,6 +77,18 @@ pack_proc::pack_proc::pack_proc(std::list<std::string> list) {
                     nf->event = sub["event"];
                     this->ninfs.insert({full_id, nf});
                     pack_ptr->ninfs.insert({nf->id, nf});
+                }
+            }
+
+            //Casts
+            if (pack_ptr->json_obj.contains("casts")) {
+                json casts = pack_ptr->json_obj["casts"];
+                for (size_t i = 0; i < casts.size(); i++) {
+                    json sub = casts.at(i);
+                    std::string from = std::string(sub["from"]);
+                    if (this->casts.count(from) == 0)
+                        this->casts.insert({from, new std::map<std::string, std::string>()});
+                    this->casts.at(from)->insert({std::string(sub["to"]), std::string(sub["conv"])});
                 }
             }
         }
