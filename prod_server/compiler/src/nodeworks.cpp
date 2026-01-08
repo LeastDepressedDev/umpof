@@ -31,9 +31,10 @@ std::pair<bool, std::string> nodeworks::node::bind(pack_proc::ninf* ninf_ptr) {
 
 
 
-nodeworks::link::link(nodeworks::LINK_TYPE ltype, std::string name) {
+nodeworks::link::link(nodeworks::LINK_TYPE ltype, std::string name, nodeworks::node* owner) {
     this->link_name = name;
     this->type = ltype;
+    this->owner = owner;
 
     switch (this->type)
     {

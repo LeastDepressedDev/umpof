@@ -20,7 +20,8 @@ namespace pack_proc {
         
         std::list<pack*> __tmp_packs;
         std::map<std::string, pack*> packs;
-        std::map<std::string, std::map<std::string, std::string>*> casts;
+        // <to, map<from, pair<exec, pack*>>
+        std::map<std::string, std::map<std::string, std::pair<std::string, pack*>>*> casts;
     public:
         std::map<std::string, ninf*> ninfs;
         std::string local_log;
@@ -32,7 +33,7 @@ namespace pack_proc {
         pack_proc* log(std::string);
         pack_proc* bef(std::string);
 
-        std::string* cast_check(std::string, std::string);
+        std::pair<std::string, pack*>* cast_check(std::string, std::string);
 
         std::map<std::string, pack*> get_packs();
     };
@@ -69,7 +70,10 @@ namespace pack_proc {
         std::string event;
         
         ninf(json, pack*);
+        ninf(std::string from, std::string to, std::string exec, pack*);
         std::string get_exec_path();
         std::string rel_path();
+
+        static std::string gen_cast_idn(std::string, std::string);
     };
 }

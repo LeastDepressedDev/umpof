@@ -26,7 +26,7 @@ void pack_proc::pack_proc::proc_dir(std::string path) {
     }
 }
 
-std::string* pack_proc::pack_proc::cast_check(std::string from, std::string to) {
+std::pair<std::string, pack_proc::pack*>* pack_proc::pack_proc::cast_check(std::string from, std::string to) {
     if (this->casts.count(from) != 0) {
         auto sub = this->casts.at(from);
         return sub->count(to) != 0 ? &sub->at(to) : nullptr;
@@ -86,9 +86,15 @@ pack_proc::pack_proc::pack_proc(std::list<std::string> list) {
                 for (size_t i = 0; i < casts.size(); i++) {
                     json sub = casts.at(i);
                     std::string from = std::string(sub["from"]);
+                    std::string to = std::string(sub["to"]);
+                    std::string conv = std::string(sub["conv"]);
                     if (this->casts.count(from) == 0)
-                        this->casts.insert({from, new std::map<std::string, std::string>()});
-                    this->casts.at(from)->insert({std::string(sub["to"]), std::string(sub["conv"])});
+                        this->casts.insert({from, new std::map<std::string, std::pair<std::string, pack*>>()});
+                    this->casts.at(from)->insert({to, {conv, pack_ptr}});
+                    ninf* nff = new ninf(from, to, conv, pack_ptr);
+                    std::string full_id = id + ":" + nff->id;
+                    this->ninfs.insert({full_id, nff});
+                    pack_ptr->ninfs.insert({nff->id, nff});
                 }
             }
         }

@@ -170,7 +170,7 @@ bool compiler::define_parts() {
                         this->bef("Modif: ")->log(std::to_string((unsigned long) out_link));
 #endif
                     } else {
-                        out_link = new nodeworks::link(nodeworks::LINK_TYPE::OUT, segments[1]);
+                        out_link = new nodeworks::link(nodeworks::LINK_TYPE::OUT, segments[1], node_from);
 #ifdef COMP_DEBUG
                         this->bef("New out link: ")->log(std::to_string((unsigned long) out_link));
 #endif
@@ -181,7 +181,7 @@ bool compiler::define_parts() {
 
                 if (this->nodes.count(segments[2]) == 0) this->handle_crash("Critical situation happened on STATE::LINKS line processing: Node doesn't exist");
                 node_to = this->nodes.at(segments[2]);
-                nodeworks::link* in_link = new nodeworks::link(nodeworks::LINK_TYPE::IN, segments[3]);
+                nodeworks::link* in_link = new nodeworks::link(nodeworks::LINK_TYPE::IN, segments[3], node_to);
 
                 out_link->link_name = std::string(segments[1]);
                 in_link->link_name = std::string(segments[3]);
@@ -194,14 +194,12 @@ bool compiler::define_parts() {
                 in_link->set_source(out_link)->set_source(this->nodes.at(segments[0]));
 
                 if (add_out) {
-                    this->links.push_back(out_link);
-                    node_from->links.insert({out_link->link_name, out_link});
+                    this->add_link(node_from, out_link);
 #ifdef COMP_DEBUG
                     this->bef("Added OUT link: ")->log(out_link->link_name);
 #endif
                 }
-                this->links.push_back(in_link);
-                node_to->links.insert({in_link->link_name, in_link});
+                this->add_link(node_to, in_link);
 #ifdef COMP_DEBUG
                 this->bef("Added IN link: ")->log(in_link->link_name);
 #endif
@@ -242,6 +240,11 @@ bool compiler::define_parts() {
     return false;
 }
 
+void compiler::add_link(nodeworks::node* nd, nodeworks::link* lnk) {
+    this->links.push_back(lnk);
+    nd->links.insert({lnk->link_name, lnk});
+}
+
 /*
 *
 *   Import packs
@@ -264,6 +267,14 @@ bool compiler::import_packs() {
     return false;
 }
 
+void compiler::do_ninf(nodeworks::node* nd) {
+    auto res = nd->bind(this->packs_info->ninfs.at(nd->class_id));
+    if (!res.first) this->handle_crash(res.second);
+#ifdef COMP_DEBUG
+    this->bef("Linked ninf(")->bef(nd->ninf_ptr->id)->bef(") to ")->bef(nd->uuid)->bef("(")->bef(nd->class_id)->log(")");
+#endif
+}
+
 /*
 *
 *   Load prefs + Link ninfs
@@ -273,11 +284,7 @@ bool compiler::load_prefs() {
     this->log("Including preferences... + linking");
 
     for (std::pair<std::string, nodeworks::node*> pr : this->nodes) {
-        auto res = pr.second->bind(this->packs_info->ninfs.at(pr.second->class_id));
-        if (!res.first) this->handle_crash(res.second);
-#ifdef COMP_DEBUG
-        this->bef("Linking ninf(")->bef(pr.second->ninf_ptr->id)->bef(") to ")->bef(pr.first)->bef("(")->bef(pr.second->class_id)->log(")");
-#endif
+        this->do_ninf(pr.second);
         
         for (std::string pref : pr.second->ninf_ptr->pref_names) {
             std::string rq_name = pr.first+"."+pref;
@@ -292,6 +299,10 @@ bool compiler::load_prefs() {
     return false;
 }
 
+std::string compiler::gen_cast_name() {
+    return std::string("__cast:") + std::to_string(this->casts++);
+}
+
 /* 
 *
 *   Casting
@@ -303,16 +314,16 @@ bool compiler::cast() {
         for (auto lkpr : pr.second->links) {
             nodeworks::link* lk = lkpr.second;
             if (lk->type == nodeworks::LINK_TYPE::OUT) {
-                std::map<std::string, std::pair<std::string*, std::list<nodeworks::link*>*>> mp;
+                // <target data type, pair<full exec path, list of target links>
+                std::map<std::string, std::pair<std::pair<std::string, pack_proc::pack*>*, std::list<nodeworks::link*>*>> mp; // This is terrible amount of duplicates but cope with it. Or is it?
                 
                 for (nodeworks::link* sub : *lk->get_targets()) {
                     if (sub->data_type == "*") continue;
-                    this->bef(lk->data_type)->bef(" - - - ")->log(sub->data_type); // Data type is not defined TODO: EMG PROCESSING DO IT LOL this is recent one
                     if (lk->data_type != sub->data_type) {
 #ifdef COMP_DEBUG
                         this->bef("Casting required between links -> (")->bef(lk->link_name)->bef(", ")->bef(sub->link_name)->log(")");
 #endif
-                        std::string* cast_check = this->packs_info->cast_check(lk->data_type, sub->data_type);
+                        auto cast_check = this->packs_info->cast_check(lk->data_type, sub->data_type);
 #ifdef COMP_DEBUG
                         this->log(cast_check == nullptr ? "Can not be done!!! ---" : "Can be done!!! +++");
 #endif
@@ -330,9 +341,42 @@ bool compiler::cast() {
                     for (nodeworks::link* olk : *pr.second.second) {
                         this->bef(olk->link_name)->bef(" ");
                     }
-                    this->bef(" -- ")->log(pr.second.first->c_str());
+                    this->bef(" -- ")->log(pr.second.first->first.c_str());
                 }
 #endif
+
+                std::set<nodeworks::link*> relinks;
+                for (auto pr : mp) {
+                    std::string cast_name = this->gen_cast_name();
+                    nodeworks::node* nd = new nodeworks::node(cast_name, pr.second.first->second->id+":"+pack_proc::ninf::gen_cast_idn(lk->data_type, pr.first));
+                    //this->bef(nd->uuid)->bef("     ")->log(nd->class_id);
+                    this->nodes.insert({nd->uuid, nd});
+                    std::string exec_path = pr.second.first->first;
+                    std::list<nodeworks::link*>* lptr = pr.second.second;
+                    
+                    nodeworks::link* nin = new nodeworks::link(nodeworks::LINK_TYPE::IN, "in", nd);
+                    nodeworks::link* nout = new nodeworks::link(nodeworks::LINK_TYPE::OUT, "out", nd);
+
+                    for (nodeworks::link* sub : *lptr) {
+                        sub->set_source(nout)->set_source(nd);
+                        nout->get_targets()->push_back(sub);
+                        nout->get_target_nodes()->push_back(sub->owner);
+                    }
+
+                    nin->set_source(lk)->set_source(lk->owner);
+                    relinks.insert(nin);
+
+
+                    this->add_link(nd, nin); this->add_link(nd, nout);
+                    this->do_ninf(nd);
+                }
+
+                lk->get_targets()->clear();
+                lk->get_target_nodes()->clear();
+                for (nodeworks::link* nlink : relinks) {
+                    lk->get_targets()->push_back(nlink);
+                    lk->get_target_nodes()->push_back(nlink->owner);
+                }
             }
         }
     }
@@ -340,11 +384,12 @@ bool compiler::cast() {
     return false;
 }
 
-void recursive_proc_node(std::set<nodeworks::node*>* list, nodeworks::node* node) {
+void compiler::recursive_proc_node(std::set<nodeworks::node*>* list, nodeworks::node* node) {
     list->insert(node);
+    this->log(node->uuid);
     for (std::pair<std::string, nodeworks::link*> pr : node->links) {
         if (pr.second->type == nodeworks::LINK_TYPE::IN) {
-            recursive_proc_node(list, pr.second->get_source_node());
+            this->recursive_proc_node(list, pr.second->get_source_node());
         }
     }
 }
@@ -355,7 +400,7 @@ void recursive_proc_node(std::set<nodeworks::node*>* list, nodeworks::node* node
 *
 */
 bool compiler::comp_seq() {
-    this->log("Compiling sequences");
+    this->log("Compiling sequences::");
     std::map<nodeworks::node*, seq*> binder;
     
 #ifdef COMP_DEBUG
@@ -364,6 +409,7 @@ bool compiler::comp_seq() {
     for (nodeworks::node* target : targets) {
         this->log(target->uuid);
     }
+    this->log("Deriving sequences...");
 #endif
 
     // Deriving all possible sequence with given targets
@@ -371,7 +417,14 @@ bool compiler::comp_seq() {
     // For some reason addresses in logs are different between steps. I do not even want to try to start understanding this process and its reasoning
     for (nodeworks::node* target : targets) {
         std::set<nodeworks::node*>* innodes = new std::set<nodeworks::node*>();
+#ifdef COMP_DEBUG
+        this->bef("Running recursive_proc_node for ")->log(target->uuid)->log(" -->");
+#endif
         recursive_proc_node(innodes, target);
+#ifdef COMP_DEBUG
+        this->log("Done!");
+#endif
+        
 
         bool flag0 = true;
         for (nodeworks::node* nd : *innodes) {

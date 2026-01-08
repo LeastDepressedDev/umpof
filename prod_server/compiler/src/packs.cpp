@@ -54,6 +54,23 @@ pack_proc::ninf::ninf(json def, pack* src) {
     }
 }
 
+// Cast one
+// Cast unifrom names are identified as 'in' and 'out'
+pack_proc::ninf::ninf(std::string from, std::string to, std::string exec, pack* src) {
+    this->source = src;
+    this->id = ninf::gen_cast_idn(from, to);
+    this->exec_type = PYTHON;
+    this->links.insert({std::string("input"), new std::map<std::string, std::string>()});
+    this->links.insert({std::string("output"), new std::map<std::string, std::string>()});
+    this->exec_path = exec;
+    this->links.at("input")->insert({"in", from});
+    this->links.at("output")->insert({"out", to});
+}
+
+std::string pack_proc::ninf::gen_cast_idn(std::string from, std::string to) {
+    return "__" + from + "->" + to;
+}
+
 std::string pack_proc::ninf::get_exec_path() {
     return this->source->path + "/" + this->exec_path;
 }

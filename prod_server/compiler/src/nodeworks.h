@@ -44,10 +44,11 @@ namespace nodeworks
         link* source_link;
         std::list<link*>* target_links;
     public:
+        node* owner;
         LINK_TYPE type;
         std::string link_name;
         std::string data_type;
-        link(LINK_TYPE type, std::string name);
+        link(LINK_TYPE type, std::string name, node* owner);
 
         node* get_source_node();
         std::list<node*>* get_target_nodes();

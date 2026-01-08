@@ -51,6 +51,8 @@ private:
 
     pack_proc::pack_proc* packs_info;
 
+    size_t casts = 0;
+
     size_t last_seq_index;
 
     pl_gen* ppl_c;
@@ -91,10 +93,16 @@ public:
     
     compiler::RETURN_STATUS build();
 
+
+    void add_link(nodeworks::node*, nodeworks::link*);
+    void do_ninf(nodeworks::node*);
+    void recursive_proc_node(std::set<nodeworks::node*>* list, nodeworks::node* node);
+
     std::list<nodeworks::node*> get_targets();
     size_t next_seq_index();
     pack_proc::pack_proc* get_pack_info(); // Defined in comp_seq.cpp
     
+    std::string gen_cast_name();
 
     void end_log();
     //Shit... This part looks awful
