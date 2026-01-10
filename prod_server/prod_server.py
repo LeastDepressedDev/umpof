@@ -7,11 +7,13 @@ import subprocess
 import uuid
 from flask_socketio import emit, join_room
 import copy
+import shutil
 
 cfg = {
     "allow-reload": True, # True = allow runtime reloads of active packs via /reload
     "pack-path": "/home/sirtage/all/projects/umpof/tpacks", # Path to the packs on server
-    "runtime-debug": False # True = if server contains a core umpof service for debugging
+    "runtime-debug": False, # True = if server contains a core umpof service for debugging
+    "remove-after-get": True # Remove generated {uuid}.ppl and {uuid} in BUILD_SESSIONS after downloading it
 }
 
 USER_WEB_LINKER = {}
@@ -44,15 +46,32 @@ def load():
 
 def finish(uuid, result):
     if (result == 0):
+
+        shutil.make_archive(uuid, "zip", uuid)
+        os.rename(f"{uuid}.zip", f"{uuid}.ppl")
+
+        #final
+        shutil.rmtree(uuid)
+
+        #with open(f"{uuid}.ppl", "rb") as f:
+        #    BUILD_SESSIONS[uuid]["fl"] = f.read()
         BUILD_SESSIONS[uuid]["status"] = "finished"
         BUILD_SESSIONS[uuid]["result"] = result
+        #print(BUILD_SESSIONS[uuid])
         if USER_WEB_LINKER[uuid] != -1:
             BUILD_SESSIONS[uuid]["sent"] = True
-            emit('build_ready', {}, room=USER_WEB_LINKER[uuid])
+            emit('build_ready', {"subid": uuid}, room=USER_WEB_LINKER[uuid])
+
+            #Disconnect if it is all
+            if BUILD_SESSIONS[uuid]["rtexec"]:
+                call_for_run(uuid)
+            else:
+                emit("byebye", {}, room=USER_WEB_LINKER[uuid])
     else:
         if USER_WEB_LINKER[uuid] != -1:
             BUILD_SESSIONS[uuid]["sent"] = True
             emit('msgm', {"msg": "Error occured while building"}, room=USER_WEB_LINKER[uuid])
+        del USER_WEB_LINKER[uuid]
 
 async def run_bproc(obj, ruind):
     global BUILD_SESSIONS
@@ -67,7 +86,8 @@ async def run_bproc(obj, ruind):
             oviron[f"{nid[0]}.{name}"] = val["val"]
     BUILD_SESSIONS[ruind] = {
         "status": "initialising",
-        "sent": False
+        "sent": False,
+        "rtexec": obj["rtexec"]
     }
     proc = await asyncio.create_subprocess_shell(
         f"./cmpf {ruind}",
@@ -89,5 +109,9 @@ def create_build_session(obj):
     try:
         asyncio.run(starter(obj, ruind))
         return {"verdict": 1, "key": ruind, "res": "Streamsocket establishment approved."}
-    except:
+    except Exception as e:
+        print(e)
         return {"verdict": 0, "res": "Error happend"}
+    
+def call_for_run(uuid):
+    pass

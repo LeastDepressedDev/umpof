@@ -99,6 +99,11 @@ function request_build(rtexec, sendback) {
     }).then((asw) => {
         
         asw.json().then((obj) => {
+            if (obj.verdict != 1) {
+                console.log("Something fucked up...")
+                console.log(obj)
+                return
+            }
             console.log("Connecting to the websocket session of this shit");
             connect_streamsocket(obj.key)
         });

@@ -34,7 +34,13 @@ function connect_streamsocket(key) {
 
     ComSocket.on('build_ready', function(msgin) {
         // File download thingy here
-        console.log("Download ready");
+        console.log("Build ready");
+        innerHTML = ""
+
+        innerHTML += "<label>Your .ppl was successfully compiled...</label>";
+        innerHTML += `<a href="%prod_addr%/get/${msgin.subid}">Download .ppl</a>`;
+
+        let winds = create_dwindow("Build ready", new_dim(600, 400), innerHTML);
     });
 
     ComSocket.on('msgm', function(msgin) {

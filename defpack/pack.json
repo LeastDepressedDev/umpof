@@ -86,7 +86,7 @@
             "width": 140,
             "description": "Provides basic arithmetical operations on integers",
             "exec-type": "python",
-            "exec": "emits/ints_op.py",
+            "exec": "ops/ints_op.py",
             "format": [
                 {
                     "block": "input",
@@ -136,8 +136,34 @@
                 {
                     "block": "input",
                     "text": "Any",
-                    "unid": "a",
+                    "unid": "in",
                     "type": "*"
+                }
+            ]
+        },
+        {
+            "flag": "target",
+            "id": "fout",
+            "name": "File output",
+            "group": "targets",
+            "width": 100,
+            "description": "Target that writes text to file",
+            "exec-type": "python",
+            "exec": "targets/fout.py",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "Any",
+                    "unid": "in",
+                    "type": "text"
+                }
+            ],
+            "prefs": [
+                {
+                    "id": "fname",
+                    "name": "File name",
+                    "type": "text",
+                    "val": "output.txt"
                 }
             ]
         }

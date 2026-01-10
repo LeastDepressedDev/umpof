@@ -158,7 +158,7 @@ function clock_link(t1, k) {
 
 function save_prefs_for(ele, part_l) {
     part_l.forEach((part) => {
-        if (part[1] == "text") {
+        if (part[1] == "text" || part[1] == "int" || part[1] == "float") {
             ele.prefs[part[2]].val = document.getElementById(part[0]).value;
         }
     });

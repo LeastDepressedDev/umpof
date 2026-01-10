@@ -4,6 +4,8 @@ from flask_socketio import SocketIO, emit
 import prod_server
 import sys
 import json
+import atexit
+import os
 
 app = Flask("Production server")
 app.config['SECRET_KEY'] = 'cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?cocal?'
@@ -41,7 +43,21 @@ def build_req():
         return prod_server.create_build_session(request.get_json())
     else: return {"verdict": 0, "res": "Wrong"}
 
-
+@app.route("/get/<runid>")
+def get_req(runid):
+    if runid in prod_server.BUILD_SESSIONS.keys() and prod_server.BUILD_SESSIONS[runid]["status"] == "finished":
+        try:
+            c = f"{runid}.ppl"
+            kop = send_file(c)
+            os.remove(c)
+            del prod_server.BUILD_SESSIONS[runid]
+            del prod_server.USER_WEB_LINKER[runid]
+            return kop
+        except Exception as e:
+            print(e)
+            return send_file("WeAreSorry.txt")
+    else:
+        return send_file("WeAreSorry.txt")
 
 
 @socketio.on('connect')
@@ -51,14 +67,20 @@ def handle_connect():
 @socketio.on('linkaw')
 def handle_linkaw(asw):
     user_id = request.sid
-    #print(asw, user_id, prod_server.USER_WEB_LINKER.keys())
+    #print(asw, user_id, prod_server.USER_WEB_LINKER.keys(), sep='\n')
     if asw["key"] in prod_server.USER_WEB_LINKER.keys():
         prod_server.USER_WEB_LINKER[asw["key"]] = user_id
         emit('linkres', {'result': 'OCK'})
 
         if prod_server.BUILD_SESSIONS[asw["key"]]["status"] == "finished":
             if prod_server.BUILD_SESSIONS[asw["key"]]["result"] == 0:
-                emit('build_ready', {})
+                emit('build_ready', {"subid": asw["key"]})
+
+                #Disconnect if it is all
+                if prod_server.BUILD_SESSIONS[asw["key"]]["rtexec"]:
+                    prod_server.call_for_run(asw["key"])
+                else:
+                    emit("byebye", {})
             else:
                 emit('msgm', {"msgm": "Error occured while building"})
             prod_server.BUILD_SESSIONS[asw["key"]]["sent"] = True
@@ -68,9 +90,14 @@ def handle_linkaw(asw):
 
 
 
+def cleanup():
+    for id in prod_server.BUILD_SESSIONS.keys():
+        c = f"{id}.ppl"
+        if os.path.exists(c): os.remove(c)
+    pass
 
 
-
+atexit.register(cleanup)
 
 # Requires arguments: [1] = port: int
 if __name__ == "__main__":
