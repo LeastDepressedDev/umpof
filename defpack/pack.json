@@ -16,7 +16,7 @@
                 {
                     "block": "output",
                     "text": "Integer",
-                    "unid": "a",
+                    "unid": "out",
                     "type": "int"
                 }
             ],
@@ -41,7 +41,7 @@
                 {
                     "block": "output",
                     "text": "Float",
-                    "unid": "a",
+                    "unid": "out",
                     "type": "float"
                 }
             ],
@@ -66,7 +66,7 @@
                 {
                     "block": "output",
                     "text": "Text",
-                    "unid": "a",
+                    "unid": "out",
                     "type": "text"
                 }
             ],
@@ -143,17 +143,17 @@
         },
         {
             "flag": "target",
-            "id": "fout",
-            "name": "File output",
+            "id": "sfout",
+            "name": "Static File output",
             "group": "targets",
-            "width": 100,
+            "width": 180,
             "description": "Target that writes text to file",
             "exec-type": "python",
-            "exec": "targets/fout.py",
+            "exec": "targets/sfout.py",
             "format": [
                 {
                     "block": "input",
-                    "text": "Any",
+                    "text": "Content",
                     "unid": "in",
                     "type": "text"
                 }
@@ -164,6 +164,30 @@
                     "name": "File name",
                     "type": "text",
                     "val": "output.txt"
+                }
+            ]
+        },
+        {
+            "flag": "target",
+            "id": "fout",
+            "name": "File output",
+            "group": "targets",
+            "width": 120,
+            "description": "Target that writes text to file",
+            "exec-type": "python",
+            "exec": "targets/fout.py",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "File name",
+                    "unid": "fname",
+                    "type": "text"
+                },
+                {
+                    "block": "input",
+                    "text": "Content",
+                    "unid": "in",
+                    "type": "text"
                 }
             ]
         }

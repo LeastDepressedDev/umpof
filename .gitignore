@@ -2,6 +2,7 @@
 /tests
 /tpacks
 /test.run
+/temps
 
 _deps
 __pycache__

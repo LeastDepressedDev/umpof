@@ -1,7 +1,7 @@
 from pympofl import *
 
 def main():
-    fname = uniform.include("text", "fname")
+    fname = uniform.pref("fname", "text")
     inp = uniform.include("text", "in")
     if type(fname)!=str or type(inp)!=str: raise InnerException("Type(s) corrupted")
 

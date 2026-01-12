@@ -3,6 +3,7 @@ from . import inst_cfg
 from . import uniform
 
 class StartingException(RuntimeError): pass
+class InnerException(RuntimeError): pass
 
 inst_cfg.init()
 uniform.__setup__(inst_cfg.CFG)

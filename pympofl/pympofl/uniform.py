@@ -2,6 +2,7 @@ import redis
 
 class UniformIncludeException(Exception): pass
 class UniformDropException(Exception): pass
+class UniformPrefException(Exception): pass
 
 __insets = {
     "nid": None,
@@ -11,6 +12,9 @@ __rapp = None
 
 def gen_npar(id, section, mtype):
     return f"{section}::{__insets["nid"]}.{id}::{mtype}"
+
+def gen_npref(id):
+    return f"__pref::{__insets["nid"]}.{id}"
 
 
 
@@ -33,6 +37,20 @@ def drop(mtype, id, val):
     elif mtype == "float": val = str(val)
     elif mtype == "list": val = "\t".join(val)
     __rapp.set(gen_npar(id, "out", mtype), val)
+
+
+# Here default is str, cuz it's pref
+def pref(id, mtype=None):
+    resp = __rapp.get(gen_npref(id))
+    if mtype==None: return str(resp)
+    else:
+        if len(mtype) == 0: raise UniformPrefException("Type is defined but empty")
+        if mtype == "text": return str(resp)
+        elif mtype == "int": return int(resp)
+        elif mtype == "float": return float(resp)
+        else: return str(resp)
+
+
 
 def __setup__(cfg):
     global __insets, __rapp
