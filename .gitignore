@@ -9,3 +9,4 @@ __pycache__
 prod_server/compiler/cmpf
 prod_server/compiler/src/nlohmann
 CMakeFiles
+*.rdb

@@ -1,6 +1,7 @@
 Python > 3.1
 Flask for Python
 Numpy for Python
+Redis for Python (for pympofl lib)
 CXX >= 17
 Java 20
 Redis Valkey

@@ -1,19 +1,19 @@
-import pympofl
-from pympofl import uniform
+from pympofl import *
 
 def main():
-    a = uniform.include("a")
-    b = uniform.include("b")
-    op = uniform.include("op")
+    a = uniform.include("int", "a")
+    b = uniform.include("int", "b")
+    op = uniform.include("text", "op")
+    print(type(a), type(b), type(op))
     if op == "+":
-        uniform.drop("a", a+b)
+        uniform.drop("int", "res", a+b)
     elif op == "-":
-        uniform.drop("a", a-b)
+        uniform.drop("int", "res", a-b)
     elif op == "*":
-        uniform.drop("a", a*b)
+        uniform.drop("int", "res", a*b)
     elif op == "/":
-        uniform.drop("a", a/b)
+        uniform.drop("int", "res", a/b)
     elif op == "**":
-        uniform.drop("a", a**b)
+        uniform.drop("int", "res", a**b)
 
-pympofl.call(main_f=main)
+call(main_f=main)
