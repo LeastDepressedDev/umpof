@@ -1,6 +1,6 @@
+#!/bin/bash
 dname='temp_build'
 
-#/bin/ash
 if [ ! -d "temp_build" ]; then 
     mkdir $dname
 fi

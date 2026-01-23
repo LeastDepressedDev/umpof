@@ -1,0 +1,5 @@
+{
+  "redis_port": 7070,
+  "workmode": "RT1",
+  "flags": []
+}

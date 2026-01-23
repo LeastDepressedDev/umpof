@@ -10,8 +10,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.json:json:20250517'
+    implementation 'com.google.code.gson:gson:2.13.2'
     implementation 'redis.clients:jedis:2.8.0'
+    implementation 'net.lingala.zip4j:zip4j:2.11.5'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -19,4 +20,20 @@ dependencies {
 }
 test {
     useJUnitPlatform()
+}
+
+
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': 'me.ldd.umpof.Main' // Replace with your actual main class
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
 }
