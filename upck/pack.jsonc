@@ -42,7 +42,8 @@
                     "val": "0", // Default value - always string cuz it's just easier
                     "type": "text" // Type for visual area to intrepret
                 }
-            ]
+            ],
+            "deps": ["part.py"] // Dependencies list. If nodes is used, copy all the files in the pack that are mentioned in deps list
         }
     ],
     "events": [ // Events is everything in this project. Event bus is soft, so it can be used for pretty much everything. (Except async).
