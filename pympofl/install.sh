@@ -1,6 +1,8 @@
 #!/bin/bash
 dname='temp_build'
 
+pip3 install redis --break-system-packages
+
 if [ ! -d "temp_build" ]; then 
     mkdir $dname
 fi
