@@ -1,4 +1,4 @@
-package me.ldd.umpof.exceptions;
+package me.ldd.umpof;
 
 public class InnerConfigNotFoundException extends RuntimeException {
     public InnerConfigNotFoundException(String message) {

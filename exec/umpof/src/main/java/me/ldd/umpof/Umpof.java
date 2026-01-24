@@ -1,7 +1,10 @@
 package me.ldd.umpof;
 
 import com.google.gson.JsonObject;
-import me.ldd.umpof.exceptions.StarterException;
+import me.ldd.umpof.comps.ExecutorComponent;
+import me.ldd.umpof.comps.NodeComponent;
+import me.ldd.umpof.comps.SequenceComponent;
+import me.ldd.umpof.lb.ByteHelper;
 import me.ldd.umpof.starter.UWorkMode;
 import me.ldd.umpof.starter.UmpofStarter;
 import net.lingala.zip4j.ZipFile;
@@ -12,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
@@ -35,6 +39,8 @@ public class Umpof {
     public Path targetPath;
     public final UUID uuid;
 
+    public final ExecutiveModule execCtr;
+
     public Umpof(UmpofStarter starter) {
         if (starter.target == null) throw new StarterException("Target pipeline not specified");
         if (!Files.exists(starter.target)) throw new StarterException("Target pipeline file not exists");
@@ -45,6 +51,9 @@ public class Umpof {
         this.REDIS_PORT = cfg.get("redis_port").getAsInt();
         this.state = State.SLEEPING;
         this.uuid = UUID.randomUUID();
+
+
+        this.execCtr = new ExecutiveModule();
     }
 
     public void start() throws ZipException {
@@ -70,6 +79,9 @@ public class Umpof {
         // TODO: Proper checks
         FileInputStream fin = new FileInputStream(file);
         while (readSection(fin));
+
+        this.execCtr.getNodes().forEach((id, node) -> node.setExecFrom(this.execCtr));
+        this.execCtr.getSequences().forEach((id, seq) -> seq.buildNodeSet(this.execCtr));
     }
 
     public static String constructName(UUID uuid) {
@@ -86,16 +98,31 @@ public class Umpof {
         byte TYPE = fin.readNBytes(1)[0];
         switch (TYPE) {
             case 0x00 -> {
-                short size = ByteBuffer.wrap(fin.readNBytes(2)).getShort();
+                short size = ByteHelper.readNumeric(fin, 2).getShort();
                 fin.skipNBytes(size);
                 System.out.println("Worked over skip section.");
             }
             case 0x01 -> {
+                byte type = fin.readNBytes(1)[0];
+                short sub_id = ByteHelper.readNumeric(fin, 2).getShort();
+                int strSize = ByteHelper.readNumeric(fin, 4).getInt();
+                String str = ByteHelper.readSizedStr(fin, strSize);
 
+                this.execCtr.registerExecutor(new ExecutorComponent(sub_id, str, type));
+                System.out.printf("Registered executor: %s\n", str);
+            }
+            case 0x02 -> {
+                NodeComponent node = new NodeComponent(fin);
+                this.execCtr.registerNode(node);
+                System.out.printf("Registered node: %d\n", node.index);
+            }
+            case 0x03 -> {
+                SequenceComponent seq = new SequenceComponent(fin);
+                this.execCtr.registerSequence(seq);
+                System.out.printf("Registered sequence: %s\n", seq.event);
             }
             default -> {
                 System.out.println("Got an unknown type... skipping...");
-
             }
         }
         sbyte = fin.readNBytes(4);

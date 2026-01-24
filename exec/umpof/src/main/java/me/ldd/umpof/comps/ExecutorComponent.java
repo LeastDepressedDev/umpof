@@ -1,8 +1,8 @@
 package me.ldd.umpof.comps;
 
-import me.ldd.umpof.exec.ExecutiveModule;
+import me.ldd.umpof.ExecutiveModule;
 
-public class ExecutorComponent {
+public class ExecutorComponent extends Component {
 
     public enum Type {
         DUMMY,
@@ -13,8 +13,6 @@ public class ExecutorComponent {
     public final short id;
     public final Type type;
 
-    private ExecutiveModule module = null;
-
     public ExecutorComponent(short id, String path, byte exec_type) {
         this.path = path;
         this.id = id;
@@ -24,16 +22,4 @@ public class ExecutorComponent {
         }
     }
 
-    boolean isBound() {
-        return module != null;
-    }
-
-    public void link(ExecutiveModule module) {
-        if (this.module == null) this.module = module;
-        else throw new RuntimeException("Attempt to relink component... wtf");
-    }
-
-    public ExecutiveModule getModule() {
-        return module;
-    }
 }

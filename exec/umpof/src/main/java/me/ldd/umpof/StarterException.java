@@ -1,4 +1,4 @@
-package me.ldd.umpof.exceptions;
+package me.ldd.umpof;
 
 public class StarterException extends RuntimeException {
     public StarterException(String message) {
