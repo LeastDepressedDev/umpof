@@ -21,7 +21,7 @@ public class NodeComponent extends Component {
 
     public final Integer index;
     private final short execId;
-    private final Pair<String, String>[] prefs;
+    public final Pair<String, String>[] prefs;
     private final InLink[] links;
 
     private ExecutorComponent executor = null;
@@ -78,4 +78,12 @@ public class NodeComponent extends Component {
         this.executor = module.getExecs().get(this.execId);
     }
 
+    public String constructPrefName(String idp) {
+        return constructPrefName(this, idp);
+    }
+
+
+    public static String constructPrefName(NodeComponent component, String idp) {
+        return "__pref::%d.%s".formatted(component.index, idp);
+    }
 }

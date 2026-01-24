@@ -5,10 +5,13 @@ import me.ldd.umpof.comps.ExecutorComponent;
 import me.ldd.umpof.comps.NodeComponent;
 import me.ldd.umpof.comps.SequenceComponent;
 import me.ldd.umpof.lb.ByteHelper;
+import me.ldd.umpof.lb.Pair;
+import me.ldd.umpof.lb.Utils;
 import me.ldd.umpof.starter.UWorkMode;
 import me.ldd.umpof.starter.UmpofStarter;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,25 +30,29 @@ public class Umpof {
         UNPACKING,
         PREPARING,
         REDIS_SETUP,
-        RUNNING,
+        RUNNING, // ONGOING, NOT FINISHED YET DESPITE BEING USED
         SECURE_STOP,
         END,
         CLEANUP
     }
 
     public final UWorkMode WORKMODE;
-    public final int REDIS_PORT;
+    public final Integer REDIS_PORT;
     public State state;
     public Path targetPath;
     public final UUID uuid;
 
     public final ExecutiveModule execCtr;
+    public Process redisProc = null;
+
+    private JsonObject cfg;
+
 
     public Umpof(UmpofStarter starter) {
         if (starter.target == null) throw new StarterException("Target pipeline not specified");
         if (!Files.exists(starter.target)) throw new StarterException("Target pipeline file not exists");
         this.targetPath = starter.target;
-        JsonObject cfg = starter.getConfig();
+        this.cfg = starter.getConfig();
 
         this.WORKMODE = UWorkMode.rmod(cfg.get("workmode").getAsString());
         this.REDIS_PORT = cfg.get("redis_port").getAsInt();
@@ -56,6 +63,7 @@ public class Umpof {
         this.execCtr = new ExecutiveModule();
     }
 
+    //TODO: Add normal Exception proc for subsections
     public void start() throws ZipException {
         workdir();
         try {
@@ -65,6 +73,20 @@ public class Umpof {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        try {
+            redis_setup();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            this.run();
+        } catch (Exception e) {
+            this.innerCrashLogic(e);
+        }
+
+        secure_stop();
     }
 
     private void workdir() throws ZipException {
@@ -130,5 +152,74 @@ public class Umpof {
             if (c != (byte) 0x00) throw new RuntimeException("Section last line offset corrupted.");
         }
         return true;
+    }
+
+    public final void redis_setup() throws IOException {
+        this.state = State.REDIS_SETUP;
+        String os = System.getProperty("os.name");
+        System.out.printf("Running on %s\n", os);
+        boolean c_script = cfg.has("c_redist_launch");
+        if (c_script) {c_script_redis();}
+        else {
+            switch (os) {
+                case "Linux" -> {
+                    ProcessBuilder pb = new ProcessBuilder("redis-server", "--port", REDIS_PORT.toString());
+                    this.redisProc = pb.start();
+                }
+                default -> {
+                    System.out.println("Unsupported OS type... Catching for custom bash launch script.");
+                }
+            }
+        }
+
+        if (this.redisProc.isAlive()) {
+            Jedis jedis = new Jedis("localhost", this.REDIS_PORT);
+            this.execCtr.getNodes().forEach((id, node) -> {
+                for (Pair<String, String> pref : node.prefs) {
+                    jedis.set(node.constructPrefName(pref.first), pref.second);
+                }
+            });
+        }
+
+
+    }
+
+    private final void c_script_redis() throws IOException {
+        ProcessBuilder pb = new ProcessBuilder("bash", this.cfg.get("redis-server").getAsString());
+        pb.environment().put("REDIS_PORT_EXT", this.REDIS_PORT.toString());
+        this.redisProc = pb.start();
+    }
+
+
+    private void run() {
+        this.state = State.RUNNING;
+    }
+
+
+    private void secure_stop() {
+        this.state = State.SECURE_STOP;
+
+        general_stop();
+    }
+
+
+    private void general_stop() {
+        try {
+            this.state = State.END;
+            this.redisProc.destroy();
+
+            this.cleanup();
+        } catch (IOException exception) {
+            throw new RuntimeException("Failed general stop section! Too bad...", exception);
+        }
+    }
+
+    private void cleanup() throws IOException {
+        this.state = State.CLEANUP;
+        Utils.deleteDirectoryWithFiles(Path.of(constructName(this.uuid)));
+    }
+
+    private void innerCrashLogic(Exception exception) {
+
     }
 }
