@@ -67,6 +67,10 @@ void pl_gen::dump() {
     this->f_ptr = fopen(pth.c_str(), "w");
 
     for (pl_block::pl_block block : this->leg) {
+        
+    }
+    
+    for (pl_block::pl_block block : this->leg) {
         this->write(block);
     }
 

@@ -53,14 +53,17 @@ void pl_block::node::write(FILE* f_ptr) {
             this->write_pref(pr);
         }
     }
-    size = (u_int32_t) this->node_ptr->links.size();
-    fwrite(&size, sizeof(u_int32_t), 1, f_ptr);
-    if (size>0) {
+
+    if (this->node_ptr->links.size()>0) {
+        std::list<nodeworks::link*> lks;
         for (std::pair<std::string, nodeworks::link*> pr : this->node_ptr->links) {
             if (pr.second->type == nodeworks::LINK_TYPE::IN) {
-                this->write_link(pr.second);
+                lks.push_back(pr.second);
             }
         }
+        u_int32_t loc_size = (u_int32_t) lks.size();
+        fwrite(&loc_size, sizeof(u_int32_t), 1, f_ptr);
+        for (nodeworks::link* lk : lks) this->write_link(lk);
     }
 }
 
