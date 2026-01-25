@@ -29,16 +29,15 @@ public class ExecutiveModule {
         task.executing.forEach((a) -> {
             if (a.process == null) {
                 System.out.println("Skipp null dummy process.");
-                task.executing.remove(a);
                 t.add(a);
             }
             else if (!a.process.isAlive()) {
                 a.finish();
-                task.executing.remove(a);
                 t.add(a);
             }
         });
         task.tasks.removeAll(t);
+        task.executing.removeAll(t);
         if (task.executing.size() >= this.parallel) return;
         if(task.next()) {
             tasks.pollFirst();

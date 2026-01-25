@@ -60,6 +60,8 @@ namespace pl_block {
      * 4 bytes                   source-node-index
      * 4 bytes -> n           out-link-name-length
      * n bytes                   str: out-link-name
+     * 4 bytes -> n           in-link-name-length
+     * n bytes                   str: in-link
      * 1 byte                      0x00
      * -struct
      * 

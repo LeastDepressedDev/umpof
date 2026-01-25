@@ -16,7 +16,7 @@ def main():
     op = uniform.pref("opcode", "text")
     if type(a)!=int or type(b)!=int or type(op)!=str: raise InnerException("Type(s) corrupted")
     if op not in ops.keys(): raise InnerException("Incorrect or unsupported operation")
-    uniform.drop("int", "r", ops[op]())
+    uniform.drop("int", "r", ops[op](a, b))
     pass
 
 call(main_f=main)

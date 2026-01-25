@@ -25,6 +25,7 @@ def init():
     if "rtf" in CFG["flags"]: essentials.remove("node")
 
     for v in CFG["pars"].keys():
-        essentials.remove(v)
+        if v in essentials:
+            essentials.remove(v)
 
     if len(essentials) > 0: raise ValidationFailed(f"Couldn't start script -> essential input parameters missing {essentials}")

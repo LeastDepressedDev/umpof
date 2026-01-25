@@ -23,8 +23,8 @@ def gen_npref(id):
 # Not default str to avoid debugging hell
 def include(mtype, id):
     if mtype == None or id == None or len(id) == 0 or len(mtype) == 0: raise UniformIncludeException("Type or id is None")
-    if id not in __insets["noe"].keys(): raise UniformIncludeException("Requested param is not provided")
-    resp = __rapp.get(gen_npar(__insets["noe"][id], id))
+    if id not in __insets["noe"].keys(): raise UniformIncludeException(f"Requested param is not provided! Request: {mtype}->{id}\n OE list: {__insets["noe"]}")
+    resp = __rapp.get(__insets["noe"][id])
 
     if mtype == "text": return str(resp)
     elif mtype == "int": return int(resp)

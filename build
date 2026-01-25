@@ -67,6 +67,8 @@ if __name__ == "__main__":
     print("Compiling cmpf")
     os.system("cd prod_server/compiler && ./build.sh")
 
+    print("Installing pympofl")
+    os.system("cd pympofl && ./install.sh")
     
 
     print("Compilation finished")

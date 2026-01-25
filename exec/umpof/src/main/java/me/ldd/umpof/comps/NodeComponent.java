@@ -12,10 +12,12 @@ public class NodeComponent extends Component {
     public static class InLink {
         public final int srcNodeId;
         public final String outLinkName;
+        public final String inLinkName;
 
-        public InLink(int srcNodeId, String outLinkName) {
+        public InLink(int srcNodeId, String outLinkName, String inLinkName) {
             this.srcNodeId = srcNodeId;
             this.outLinkName = outLinkName;
+            this.inLinkName = inLinkName;
         }
     }
 
@@ -63,7 +65,9 @@ public class NodeComponent extends Component {
             int ni = ByteHelper.readNumeric(fs, 4).getInt();
             int n = ByteHelper.readNumeric(fs, 4).getInt();
             String outlk = ByteHelper.readSizedStr(fs, n);
-            this.links[i] = new InLink(ni, outlk);
+            n = ByteHelper.readNumeric(fs, 4).getInt();
+            String inlk = ByteHelper.readSizedStr(fs, n);
+            this.links[i] = new InLink(ni, outlk, inlk);
 
             vdb = fs.readNBytes(1)[0];
             if (vdb != (byte) 0x00) throw new NodeParseException(this, "Link ender corrupted");

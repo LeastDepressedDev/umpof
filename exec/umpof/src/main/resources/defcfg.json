@@ -3,5 +3,5 @@
   "workmode": "RT1",
   "flags": [],
   "win_redis_pth": "wredis",
-  "parallel_procs": 1
+  "parallel_procs": 25
 }

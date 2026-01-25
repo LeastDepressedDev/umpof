@@ -54,8 +54,8 @@ public class SubTask {
         };
         List<String> cmd = new ArrayList<>(Arrays.asList(prog, pth, "rport="+Main.getInstance().REDIS_PORT, "node="+this.component.index));
         for (NodeComponent.InLink link : comp.getLinks()) {
-            String cp = "oe:%d=%s".formatted(link.srcNodeId, link.outLinkName);
-            System.out.println(cp);
+            String cp = "oe:%s=%d.%s".formatted(link.inLinkName, link.srcNodeId, link.outLinkName);
+            //System.out.println(cp);
             cmd.add(cp);
         }
         return cmd;

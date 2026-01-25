@@ -27,13 +27,15 @@ public class ETask {
 
     public boolean next() {
         SubTask task = tasks.poll();
-        if (task == null) return true;
-        try {
-            long pid = task.run();
-        } catch (IOException e) {
-            throw new TaskStartException("Failed to start SubTask", task, e);
+        if (task == null && executing.isEmpty()) return true;
+        if (task != null) {
+            try {
+                long pid = task.run();
+            } catch (IOException e) {
+                throw new TaskStartException("Failed to start SubTask", task, e);
+            }
+            executing.add(task);
         }
-        executing.add(task);
         return false;
     }
 }
