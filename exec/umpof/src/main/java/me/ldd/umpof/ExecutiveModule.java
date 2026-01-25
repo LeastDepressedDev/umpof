@@ -2,6 +2,7 @@ package me.ldd.umpof;
 
 import me.ldd.umpof.exec.ETask;
 import me.ldd.umpof.exec.SubTask;
+import me.ldd.umpof.exec.TaskRuntimeException;
 
 import java.util.Deque;
 import java.util.HashSet;
@@ -33,6 +34,9 @@ public class ExecutiveModule {
             }
             else if (!a.process.isAlive()) {
                 a.finish();
+                if (a.state == SubTask.State.ERROR) {
+                    throw new TaskRuntimeException("Shit happend at ", a);
+                }
                 t.add(a);
             }
         });
