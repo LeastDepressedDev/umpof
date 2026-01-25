@@ -1,16 +1,16 @@
 package me.ldd.umpof.comps;
 
-import me.ldd.umpof.ExecutiveModule;
+import me.ldd.umpof.StorageModule;
 
 public class Component {
-    private ExecutiveModule module = null;
+    private StorageModule module = null;
 
-    public void link(ExecutiveModule module) {
+    public void link(StorageModule module) {
         if (this.module == null) this.module = module;
         else throw new ComponentRelinkException();
     }
 
-    public final ExecutiveModule getModule() {
+    public final StorageModule getModule() {
         return module;
     }
 

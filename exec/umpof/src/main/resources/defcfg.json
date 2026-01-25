@@ -1,5 +1,7 @@
 {
   "redis_port": 7070,
   "workmode": "RT1",
-  "flags": []
+  "flags": [],
+  "win_redis_pth": "wredis",
+  "parallel_procs": 1
 }

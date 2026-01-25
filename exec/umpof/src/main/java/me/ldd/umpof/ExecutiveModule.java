@@ -1,69 +1,51 @@
 package me.ldd.umpof;
 
-import me.ldd.umpof.comps.Component;
-import me.ldd.umpof.comps.ExecutorComponent;
-import me.ldd.umpof.comps.NodeComponent;
-import me.ldd.umpof.comps.SequenceComponent;
-import org.w3c.dom.Node;
+import me.ldd.umpof.exec.ETask;
+import me.ldd.umpof.exec.SubTask;
 
-import java.util.*;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 public class ExecutiveModule {
-    private final Map<Short, ExecutorComponent> execs;
-    private final Map<Integer, NodeComponent> nodes;
+    public final StorageModule storage;
 
-    // Sequence by index
-    private final Map<Integer, SequenceComponent> iSeqMap;
-    // Sequence by event str
-    private final Map<String, SequenceComponent> eSeqMap;
+    public final Deque<ETask> tasks = new LinkedList<>();
+    private final int parallel;
 
-    public final List<Component> components;
-
-    public ExecutiveModule() {
-
-        this.execs = new TreeMap<>();
-        this.nodes = new TreeMap<>();
-        this.components = new LinkedList<>();
-
-        this.iSeqMap = new TreeMap<>();
-        this.eSeqMap = new HashMap<>();
+    public ExecutiveModule(StorageModule storage, int parallel) {
+        this.storage = storage;
+        this.parallel = parallel;
     }
 
-    protected void linkM(Component cmp) {
-        cmp.link(this);
-        this.components.add(cmp);
+    public void callEvent(String event) {
+        this.storage.getEventSequences().get(event).forEach((a) -> this.tasks.addFirst(new ETask(a)));
     }
 
-    public final void registerExecutor(ExecutorComponent exec) {
-        this.linkM(exec);
-        this.execs.put(exec.id, exec);
+    public void step() {
+        ETask task = tasks.peekFirst();
+        Set<SubTask> t = new HashSet<>();
+        task.executing.forEach((a) -> {
+            if (a.process == null) {
+                System.out.println("Skipp null dummy process.");
+                task.executing.remove(a);
+                t.add(a);
+            }
+            else if (!a.process.isAlive()) {
+                a.finish();
+                task.executing.remove(a);
+                t.add(a);
+            }
+        });
+        task.tasks.removeAll(t);
+        if (task.executing.size() >= this.parallel) return;
+        if(task.next()) {
+            tasks.pollFirst();
+        }
     }
 
-    public final void registerNode(NodeComponent node) {
-        this.linkM(node);
-        this.nodes.put(node.index, node);
-    }
-
-    public final void registerSequence(SequenceComponent seq) {
-        this.linkM(seq);
-        this.iSeqMap.put(seq.index, seq);
-        this.eSeqMap.put(seq.event, seq);
-    }
-
-
-    public Map<Integer, NodeComponent> getNodes() {
-        return nodes;
-    }
-
-    public Map<Short, ExecutorComponent> getExecs() {
-        return execs;
-    }
-
-    public Map<Integer, SequenceComponent> getSequences() {
-        return iSeqMap;
-    }
-
-    public Map<String, SequenceComponent> getEventSequences() {
-        return eSeqMap;
+    public boolean finished() {
+        return tasks.isEmpty();
     }
 }

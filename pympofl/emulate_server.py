@@ -22,8 +22,8 @@ app.set("__upmx", 0)
 
 for pr in NODE_PARS:
     if pr[1] != "in": continue
-    print(gen_npar(pr[1], pr[0], pr[3]), pr[2])
-    app.set(gen_npar(pr[1], pr[0], pr[3]), pr[2])
+    print(gen_npar(pr[0]), pr[2])
+    app.set(gen_npar(pr[0]), pr[2])
 
 for pr in NODE_PREFS:
     app.set(gen_npref(pr[0]), pr[1])

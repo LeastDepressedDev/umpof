@@ -6,12 +6,13 @@ class UniformPrefException(Exception): pass
 
 __insets = {
     "nid": None,
-    "st_complete": False
+    "st_complete": False,
+    "noe": {}
 }
 __rapp = None
 
-def gen_npar(id, section, mtype):
-    return f"{section}::{__insets["nid"]}.{id}::{mtype}"
+def gen_npar(node, id):
+    return f"{node}.{id}"
 
 def gen_npref(id):
     return f"__pref::{__insets["nid"]}.{id}"
@@ -22,7 +23,8 @@ def gen_npref(id):
 # Not default str to avoid debugging hell
 def include(mtype, id):
     if mtype == None or id == None or len(id) == 0 or len(mtype) == 0: raise UniformIncludeException("Type or id is None")
-    resp = __rapp.get(gen_npar(id, "in", mtype))
+    if id not in __insets["noe"].keys(): raise UniformIncludeException("Requested param is not provided")
+    resp = __rapp.get(gen_npar(__insets["noe"][id], id))
 
     if mtype == "text": return str(resp)
     elif mtype == "int": return int(resp)
@@ -36,7 +38,7 @@ def drop(mtype, id, val):
     elif mtype == "int": val = str(val)
     elif mtype == "float": val = str(val)
     elif mtype == "list": val = "\t".join(val)
-    __rapp.set(gen_npar(id, "out", mtype), val)
+    __rapp.set(gen_npar(__insets["nid"], id), val)
 
 
 # Here default is str, cuz it's pref
@@ -57,6 +59,9 @@ def __setup__(cfg):
     pars = cfg["pars"]
     if ("node" in pars.keys()): __insets["nid"] = pars["node"]
 
+    for k, v in pars.items():
+        if k.startswith("oe"):
+            __insets["noe"][k.split(":")[1]] = v
     __rapp = redis.Redis(host="localhost", port=pars["rport"], decode_responses=True)
     try:
         __rapp.get("__upmx")

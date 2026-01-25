@@ -1,6 +1,6 @@
 package me.ldd.umpof.comps;
 
-import me.ldd.umpof.ExecutiveModule;
+import me.ldd.umpof.StorageModule;
 import me.ldd.umpof.lb.ByteHelper;
 
 import java.io.FileInputStream;
@@ -38,7 +38,7 @@ public class SequenceComponent extends Component {
             if (vdb != (byte) 0x00) throw new SeqLayerParseException("Terminator byte corrupted");
         }
 
-        public void buildNodeSet(ExecutiveModule module) {
+        public void buildNodeSet(StorageModule module) {
             this.nodeQueue = new NodeComponent[this.__nodes.size()];
             AtomicInteger i = new AtomicInteger();
             this.__nodes.forEach((id) -> {
@@ -77,7 +77,7 @@ public class SequenceComponent extends Component {
         }
     }
 
-    public void buildNodeSet(ExecutiveModule module) {
+    public void buildNodeSet(StorageModule module) {
         nodeIds.forEach((id) -> nodes.add(module.getNodes().get(id)));
         for (Layer layer : this.layers) layer.buildNodeSet(module);
     }

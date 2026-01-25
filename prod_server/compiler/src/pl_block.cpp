@@ -85,10 +85,10 @@ void pl_block::node::write_pref(std::pair<std::string, std::string> pr) {
 void pl_block::node::write_link(nodeworks::link* lk) {
     fwrite(se, sizeof(u_int8_t), 1, this->f_ptr);
     fwrite(&lk->get_source_node()->fin_index, sizeof(u_int32_t), 1, this->f_ptr);
-    u_int32_t size = (u_int32_t) lk->link_name.size();
+    u_int32_t size = (u_int32_t) lk->get_source()->link_name.size();
     fwrite(&size, sizeof(u_int32_t), 1, this->f_ptr);
     if (size > 0) {
-        fwrite(lk->link_name.c_str(), sizeof(char), size, this->f_ptr);
+        fwrite(lk->get_source()->link_name.c_str(), sizeof(char), size, this->f_ptr);
     }
     fwrite(se+1, sizeof(u_int8_t), 1, this->f_ptr);
 }

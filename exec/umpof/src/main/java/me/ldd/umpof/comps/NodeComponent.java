@@ -1,6 +1,6 @@
 package me.ldd.umpof.comps;
 
-import me.ldd.umpof.ExecutiveModule;
+import me.ldd.umpof.StorageModule;
 import me.ldd.umpof.lb.ByteHelper;
 import me.ldd.umpof.lb.Pair;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
 public class NodeComponent extends Component {
 
     public static class InLink {
-        private final int srcNodeId;
+        public final int srcNodeId;
         public final String outLinkName;
 
         public InLink(int srcNodeId, String outLinkName) {
@@ -74,7 +74,7 @@ public class NodeComponent extends Component {
         return executor;
     }
 
-    public void setExecFrom(ExecutiveModule module) {
+    public void setExecFrom(StorageModule module) {
         this.executor = module.getExecs().get(this.execId);
     }
 
@@ -85,5 +85,9 @@ public class NodeComponent extends Component {
 
     public static String constructPrefName(NodeComponent component, String idp) {
         return "__pref::%d.%s".formatted(component.index, idp);
+    }
+
+    public InLink[] getLinks() {
+        return links;
     }
 }
