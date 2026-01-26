@@ -49,7 +49,7 @@ public class StorageModule {
     public final void registerSequence(SequenceComponent seq) {
         this.linkM(seq);
         this.iSeqMap.put(seq.index, seq);
-        if (this.eSeqMap.containsKey(seq.event)) this.eSeqMap.get(seq.event);
+        if (this.eSeqMap.containsKey(seq.event)) this.eSeqMap.get(seq.event).add(seq);
         else {
             Set<SequenceComponent> st = new HashSet<>(); st.add(seq);
             this.eSeqMap.put(seq.event, st);

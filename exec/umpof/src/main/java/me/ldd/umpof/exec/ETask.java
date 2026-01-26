@@ -27,7 +27,10 @@ public class ETask {
 
     public boolean next() {
         SubTask task = tasks.poll();
-        if (task == null && executing.isEmpty()) return true;
+        if (task == null && executing.isEmpty()) {
+            System.out.printf("Finished section %s/%s\n", this.uuid, src.event);
+            return true;
+        }
         if (task != null) {
             try {
                 long pid = task.run();
