@@ -61,7 +61,8 @@ async def run_front():
 if __name__ == "__main__":
 
     print("Moving default packs")
-    os.system("cp -vr defpack tpacks")
+    os.system("mkdir tpacks")
+    os.system("cp -vr defpacks/* tpacks")
     #subprocess.call(["cp", "-r", "defpack", "tpacks"])
     
     print("Compiling cmpf")
