@@ -1,0 +1,58 @@
+{
+    "id": "fworks",
+    "name": "Filewworks",
+    "author": "LeastDepressedDev",
+    "version": "1.0",
+    "nodes": [
+        {
+            "flag": "target",
+            "id": "sfout",
+            "name": "Static File output",
+            "group": "targets",
+            "width": 180,
+            "description": "Target that writes text to file",
+            "exec-type": "python",
+            "exec": "targets/sfout.py",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "Content",
+                    "unid": "in",
+                    "type": "text"
+                }
+            ],
+            "prefs": [
+                {
+                    "id": "fname",
+                    "name": "File name",
+                    "type": "text",
+                    "val": "output.txt"
+                }
+            ]
+        },
+        {
+            "flag": "target",
+            "id": "fout",
+            "name": "File output",
+            "group": "targets",
+            "width": 120,
+            "description": "Target that writes text to file",
+            "exec-type": "python",
+            "exec": "targets/fout.py",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "File name",
+                    "unid": "fname",
+                    "type": "text"
+                },
+                {
+                    "block": "input",
+                    "text": "Content",
+                    "unid": "in",
+                    "type": "text"
+                }
+            ]
+        }
+    ]
+}

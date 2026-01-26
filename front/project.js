@@ -284,11 +284,12 @@ function load_project(prj) {
                 let node_list = [];
                 let type_list = [];
                 tz.forEach((v, k) => {
+                    if (k != "defpack") PROJECT.using.push(k);
                     v.nodes.forEach(c => {
                         c.id = `${k}:${c.id}`
                         node_list.push(c)}
                     );
-                    v.types.forEach(c => type_list.push(c));
+                    if (v.types != undefined) v.types.forEach(c => type_list.push(c));
                 });
                 
                 main_context_menu[0].val[0].val = [];
