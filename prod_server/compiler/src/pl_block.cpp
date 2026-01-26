@@ -109,6 +109,7 @@ void pl_block::b_seq::write(FILE* f_ptr) {
     fwrite(&size, sizeof(u_int32_t), 1, f_ptr);
     fwrite(this->seq_ptr->event.c_str(), sizeof(char), size, f_ptr);
     size = (u_int32_t) this->seq_ptr->nodes->size();
+    fwrite(&size, sizeof(u_int32_t), 1, f_ptr);
     for (nodeworks::node* nd : *this->seq_ptr->nodes) {
         fwrite(&nd->fin_index, sizeof(u_int32_t), 1, f_ptr);
     }
