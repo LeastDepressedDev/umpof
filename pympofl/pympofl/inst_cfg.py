@@ -5,7 +5,9 @@ class ValidationFailed(Exception):
 
 CFG = {
     "flags": [],
-    "pars": {}
+    "pars": {
+        "charset": "utf-16"
+    }
 }
 
 def init():

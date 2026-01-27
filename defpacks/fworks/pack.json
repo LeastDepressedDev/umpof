@@ -1,6 +1,6 @@
 {
     "id": "fworks",
-    "name": "Filewworks",
+    "name": "Fileworks",
     "author": "LeastDepressedDev",
     "version": "1.0",
     "nodes": [
@@ -10,7 +10,7 @@
             "name": "Static File output",
             "group": "targets",
             "width": 180,
-            "description": "Target that writes text to file",
+            "description": "Target that writes bytes to file",
             "exec-type": "python",
             "exec": "targets/sfout.py",
             "format": [
@@ -18,7 +18,7 @@
                     "block": "input",
                     "text": "Content",
                     "unid": "in",
-                    "type": "text"
+                    "type": "bytes"
                 }
             ],
             "prefs": [
@@ -36,7 +36,7 @@
             "name": "File output",
             "group": "targets",
             "width": 120,
-            "description": "Target that writes text to file",
+            "description": "Target that writes bytes to file",
             "exec-type": "python",
             "exec": "targets/fout.py",
             "format": [
@@ -50,7 +50,55 @@
                     "block": "input",
                     "text": "Content",
                     "unid": "in",
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "id": "sfin",
+            "name": "Static File input",
+            "group": "emits",
+            "width": 180,
+            "description": "Reads file content",
+            "exec-type": "python",
+            "exec": "inputs/sfread.py",
+            "format": [
+                {
+                    "block": "output",
+                    "text": "Content",
+                    "unid": "out",
+                    "type": "bytes"
+                }
+            ],
+             "prefs": [
+                {
+                    "id": "fname",
+                    "name": "File name",
+                    "type": "text",
+                    "val": "output.txt"
+                }
+            ]
+        },
+        {
+            "id": "fin",
+            "name": "File input",
+            "group": "emits",
+            "width": 120,
+            "description": "Reads file content",
+            "exec-type": "python",
+            "exec": "inputs/fread.py",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "File name",
+                    "unid": "fname",
                     "type": "text"
+                },
+                {
+                    "block": "output",
+                    "text": "Content",
+                    "unid": "out",
+                    "type": "bytes"
                 }
             ]
         }

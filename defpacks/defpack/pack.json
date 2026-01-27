@@ -7,7 +7,7 @@
         {
             "id": "int_emmiter",
             "name": "Integer emmiter",
-            "group": "emms",
+            "group": "emits",
             "width": 140,
             "description": "Emits integer value",
             "exec-type": "python",
@@ -32,7 +32,7 @@
         {
             "id": "float_emmiter",
             "name": "Float emmiter",
-            "group": "emms",
+            "group": "emits",
             "width": 140,
             "description": "Emits float value",
             "exec-type": "python",
@@ -56,8 +56,8 @@
         },
         {
             "id": "text_emmiter",
-            "name": "String emmiter",
-            "group": "ints",
+            "name": "Text emmiter",
+            "group": "emits",
             "width": 140,
             "description": "Emits string",
             "exec-type": "python",
@@ -68,6 +68,31 @@
                     "text": "Text",
                     "unid": "out",
                     "type": "text"
+                }
+            ],
+            "prefs": [
+                {
+                    "id": "ival",
+                    "name": "Text value",
+                    "type": "text",
+                    "val": ""
+                }
+            ]
+        },
+        {
+            "id": "string_emmiter",
+            "name": "String emmiter",
+            "group": "emits",
+            "width": 140,
+            "description": "Emits string",
+            "exec-type": "python",
+            "exec": "emits/emit_string.py",
+            "format": [
+                {
+                    "block": "output",
+                    "text": "Text",
+                    "unid": "out",
+                    "type": "string"
                 }
             ],
             "prefs": [
@@ -140,6 +165,53 @@
                     "type": "*"
                 }
             ]
+        },
+
+        {
+            "id": "tbuf",
+            "name": "Text buffer",
+            "group": "bufs",
+            "width": 140,
+            "description": "Buferize text for force casts",
+            "exec-type": "python",
+            "exec": "bufs/tbuf.py",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "-",
+                    "unid": "in",
+                    "type": "text"
+                },
+                {
+                    "block": "output",
+                    "text": "+",
+                    "unid": "out",
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "id": "sbuf",
+            "name": "String buffer",
+            "group": "bufs",
+            "width": 140,
+            "description": "Buferize text for force casts",
+            "exec-type": "python",
+            "exec": "bufs/sbuf.py",
+            "format": [
+                {
+                    "block": "input",
+                    "text": "-",
+                    "unid": "in",
+                    "type": "string"
+                },
+                {
+                    "block": "output",
+                    "text": "+",
+                    "unid": "out",
+                    "type": "string"
+                }
+            ]
         }
     ],
     "casts": [
@@ -152,6 +224,26 @@
             "from": "text", 
             "to": "int", 
             "conv": "casts/tti.py" 
+        },
+        {
+            "from": "bytes",
+            "to": "text",
+            "conv": "casts/btt.py"
+        },
+        {
+            "from": "text",
+            "to": "bytes",
+            "conv": "casts/ttb.py"
+        },
+        {
+            "from": "bytes",
+            "to": "int",
+            "conv": "casts/bti.py"
+        },
+        {
+            "from": "int",
+            "to": "bytes",
+            "conv": "casts/itb.py"
         }
     ],
     "types": [
@@ -166,13 +258,28 @@
             "type": "nat"
         },
         { 
-            "name": "list",
+            "name": "tlist",
             "color": "000ff0",
             "type": "nat"
         },
         { 
             "name": "text",
             "color": "3Aff00",
+            "type": "nat"
+        },
+        {
+            "name": "string",
+            "color": "3Aff44",
+            "type": "nat"
+        },
+        {
+            "name": "byte",
+            "color": "A3CC1E",
+            "type": "nat"
+        },
+        {
+            "name": "bytes",
+            "color":   "A3CCAE",
             "type": "nat"
         },
         {
