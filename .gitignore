@@ -3,6 +3,7 @@
 /tpacks
 /test.run
 /temps
+/build/.cmake
 
 _deps
 __pycache__
