@@ -24,14 +24,14 @@ import java.util.UUID;
 public class Umpof {
 
     public enum State {
-        SLEEPING,
-        UNPACKING,
-        PREPARING,
-        REDIS_SETUP,
-        RUNNING, // ONGOING, NOT FINISHED YET DESPITE BEING USED
-        SECURE_STOP,
-        END,
-        CLEANUP
+        SLEEPING, // Idle phase
+        UNPACKING, // Extracting data from *.ppl archive
+        PREPARING, // Building essential structure
+        REDIS_SETUP, // Redis server start
+        RUNNING, // Active execution of pipeline
+        SECURE_STOP, // Ending phase under normal conditions
+        END, // General ending phase
+        CLEANUP // Cleanup section
     }
 
     public final UWorkMode WORKMODE;
